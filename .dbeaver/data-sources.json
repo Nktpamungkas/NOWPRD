@@ -1,0 +1,31 @@
+{
+	"folders": {},
+	"connections": {
+		"db2-188c780c95d-6e595888f89fe57c": {
+			"provider": "db2",
+			"driver": "db2",
+			"name": "NOWPRD",
+			"save-password": true,
+			"configuration": {
+				"host": "10.0.0.21",
+				"port": "25000",
+				"database": "NOWPRD",
+				"url": "jdbc:db2://10.0.0.21:25000/NOWPRD",
+				"configurationType": "MANUAL",
+				"type": "dev",
+				"auth-model": "native"
+			}
+		}
+	},
+	"connection-types": {
+		"dev": {
+			"name": "Development",
+			"color": "255,255,255",
+			"description": "Regular development database",
+			"auto-commit": true,
+			"confirm-execute": false,
+			"confirm-data-change": false,
+			"auto-close-transactions": false
+		}
+	}
+}
