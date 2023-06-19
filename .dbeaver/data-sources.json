@@ -14,6 +14,9 @@
 				"configurationType": "MANUAL",
 				"type": "dev",
 				"auth-model": "native"
+			},
+			"custom-properties": {
+				"SQLEditor.outputPanel.autoShow": "false"
 			}
 		},
 		"db2-188c7993f12-669ede334700a02e": {

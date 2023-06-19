@@ -1,1 +1,1 @@
-{"resources":{"Scripts/Script.sql":{"default-datasource":"db2-188c780c95d-6e595888f89fe57c"}}}
+{"resources":{"Scripts/ITXVIEWBONORDER.sql":{"default-datasource":"db2-188c780c95d-6e595888f89fe57c","default-schema":"DB2ADMIN"},"Scripts/ITXVIEWSPECS_KKPRINTING.sql":{"default-datasource":"db2-188c780c95d-6e595888f89fe57c","default-schema":"DB2ADMIN"},"Scripts/ITXVIEW_RAJUT.sql":{"default-datasource":"db2-188c780c95d-6e595888f89fe57c","default-schema":"DB2ADMIN"},"Scripts/Script.sql":{"default-datasource":"db2-188c780c95d-6e595888f89fe57c","default-schema":"DB2ADMIN"}}}

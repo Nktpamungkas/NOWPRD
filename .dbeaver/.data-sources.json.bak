@@ -15,6 +15,73 @@
 				"type": "dev",
 				"auth-model": "native"
 			}
+		},
+		"db2-188c7993f12-669ede334700a02e": {
+			"provider": "db2",
+			"driver": "db2",
+			"name": "NOWTEST",
+			"save-password": true,
+			"configuration": {
+				"host": "10.0.0.21",
+				"port": "25000",
+				"database": "NOWTEST",
+				"url": "jdbc:db2://10.0.0.21:25000/NOWTEST",
+				"configurationType": "MANUAL",
+				"type": "dev",
+				"auth-model": "native"
+			}
+		},
+		"mysql8-188c799ebd5-4bc8c8745f63cb21": {
+			"provider": "mysql",
+			"driver": "mysql8",
+			"name": "svr10",
+			"save-password": true,
+			"configuration": {
+				"host": "svr10",
+				"port": "3306",
+				"url": "jdbc:mysql://svr10:3306/",
+				"configurationType": "MANUAL",
+				"home": "mysql_client",
+				"type": "dev",
+				"auth-model": "native"
+			}
+		},
+		"microsoft-188c79b5cdb-15a7b97bf7563323": {
+			"provider": "sqlserver",
+			"driver": "microsoft",
+			"name": "10.0.4.8",
+			"save-password": true,
+			"configuration": {
+				"host": "10.0.4.8",
+				"port": "1433",
+				"url": "jdbc:sqlserver://;serverName\u003d10.0.4.8;",
+				"configurationType": "MANUAL",
+				"type": "dev",
+				"provider-properties": {
+					"@dbeaver-show-all-schemas@": "false",
+					"sslTrustServerCertificate": "false"
+				},
+				"auth-model": "sqlserver_database"
+			}
+		},
+		"microsoft-188c79c388b-658c156b424d4b6e": {
+			"provider": "sqlserver",
+			"driver": "microsoft",
+			"name": "TAICHEN_CAMS_LIVE",
+			"save-password": true,
+			"configuration": {
+				"host": "S-CATS",
+				"port": "1433",
+				"database": "TAICHEN_CAMS_LIVE",
+				"url": "jdbc:sqlserver://;serverName\u003dS-CATS;databaseName\u003dTAICHEN_CAMS_LIVE",
+				"configurationType": "MANUAL",
+				"type": "dev",
+				"provider-properties": {
+					"@dbeaver-show-all-schemas@": "false",
+					"sslTrustServerCertificate": "false"
+				},
+				"auth-model": "sqlserver_database"
+			}
 		}
 	},
 	"connection-types": {
