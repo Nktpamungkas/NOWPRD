@@ -85,6 +85,39 @@
 				},
 				"auth-model": "sqlserver_database"
 			}
+		},
+		"microsoft-188d1ee8fe5-3967f4c35983dcec": {
+			"provider": "sqlserver",
+			"driver": "microsoft",
+			"name": "HMTAS_Indotaichen",
+			"save-password": true,
+			"configuration": {
+				"host": "10.0.0.13",
+				"port": "1433",
+				"database": "HMTAS_Indotaichen",
+				"url": "jdbc:sqlserver://;serverName\u003d10.0.0.13;databaseName\u003dHMTAS_Indotaichen",
+				"configurationType": "MANUAL",
+				"type": "dev",
+				"provider-properties": {
+					"@dbeaver-show-all-schemas@": "false",
+					"sslTrustServerCertificate": "false"
+				},
+				"auth-model": "sqlserver_database"
+			}
+		}
+	},
+	"virtual-models": {
+		"db2-188c780c95d-6e595888f89fe57c": {
+			"DB2ADMIN": {
+				":VIEWPRODUCTIONDEMANDSTEP": {
+					"constraints": {
+						"VIRTUAL_PK": {
+							"type": "vpk",
+							"useAllColumns": true
+						}
+					}
+				}
+			}
 		}
 	},
 	"connection-types": {
