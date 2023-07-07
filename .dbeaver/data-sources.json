@@ -106,20 +106,7 @@
 			}
 		}
 	},
-	"virtual-models": {
-		"db2-188c780c95d-6e595888f89fe57c": {
-			"DB2ADMIN": {
-				":VIEWPRODUCTIONDEMANDSTEP": {
-					"constraints": {
-						"VIRTUAL_PK": {
-							"type": "vpk",
-							"useAllColumns": true
-						}
-					}
-				}
-			}
-		}
-	},
+	"virtual-models": {"db2-188c780c95d-6e595888f89fe57c":{"DB2ADMIN":{":VIEWPRODUCTIONDEMANDSTEP":{"constraints":{"VIRTUAL_PK":{"type":"vpk","useAllColumns":true}}}}}},
 	"connection-types": {
 		"dev": {
 			"name": "Development",
@@ -128,7 +115,10 @@
 			"auto-commit": true,
 			"confirm-execute": false,
 			"confirm-data-change": false,
-			"auto-close-transactions": false
+			"smart-commit": false,
+			"smart-commit-recover": true,
+			"auto-close-transactions": true,
+			"close-transactions-period": 1800
 		}
 	}
 }
