@@ -16,7 +16,8 @@
 				"auth-model": "native"
 			},
 			"custom-properties": {
-				"SQLEditor.outputPanel.autoShow": "false"
+				"SQLEditor.outputPanel.autoShow": "false",
+				"resultset.maxrows": "2000"
 			}
 		},
 		"db2-188c7993f12-669ede334700a02e": {
