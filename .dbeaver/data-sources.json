@@ -116,7 +116,7 @@
 			"confirm-execute": false,
 			"confirm-data-change": false,
 			"smart-commit": false,
-			"smart-commit-recover": true,
+			"smart-commit-recover": false,
 			"auto-close-transactions": true,
 			"close-transactions-period": 1800
 		}

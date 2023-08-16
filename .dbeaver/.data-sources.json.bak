@@ -16,8 +16,7 @@
 				"auth-model": "native"
 			},
 			"custom-properties": {
-				"SQLEditor.outputPanel.autoShow": "false",
-				"resultset.maxrows": "2000"
+				"SQLEditor.outputPanel.autoShow": "false"
 			}
 		},
 		"db2-188c7993f12-669ede334700a02e": {
@@ -117,7 +116,7 @@
 			"confirm-execute": false,
 			"confirm-data-change": false,
 			"smart-commit": false,
-			"smart-commit-recover": true,
+			"smart-commit-recover": false,
 			"auto-close-transactions": true,
 			"close-transactions-period": 1800
 		}
