@@ -47,6 +47,12 @@
 				"home": "mysql_client",
 				"type": "dev",
 				"auth-model": "native"
+			},
+			"custom-properties": {
+				"dataformat.profile.country": "US",
+				"dataformat.profile.language": "en",
+				"dataformat.type.number.nativeSpecialValues": "true",
+				"resultset.grid.value.format": "UI"
 			}
 		},
 		"microsoft-188c79b5cdb-15a7b97bf7563323": {
@@ -106,7 +112,7 @@
 			}
 		}
 	},
-	"virtual-models": {"db2-188c780c95d-6e595888f89fe57c":{"DB2ADMIN":{":VIEWPRODUCTIONDEMANDSTEP":{"constraints":{"VIRTUAL_PK":{"type":"vpk","useAllColumns":true}}}}}},
+	"virtual-models": {"db2-188c780c95d-6e595888f89fe57c":{"DB2ADMIN":{":VIEWPRODUCTIONDEMANDSTEP":{"constraints":{"VIRTUAL_PK":{"type":"vpk","useAllColumns":true}}}},"SYSCAT":{":INDEXES":{"constraints":{"VIRTUAL_PK":{"type":"vpk","useAllColumns":true}}}}}},
 	"connection-types": {
 		"dev": {
 			"name": "Development",
