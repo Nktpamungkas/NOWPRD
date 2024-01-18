@@ -1,0 +1,444 @@
+-- DB2ADMIN.ITXVIEW_ALLOCATION_2 source
+
+CREATE VIEW ITXVIEW_ALLOCATION_2 AS
+SELECT
+    SALESDOCUMENTPROVISIONALCODE,
+    --CODE,
+    LOTCODE,
+    SUM(USERPRIMARYQUANTITY) AS USERPRIMARYQUANTITY,
+    SUM(USERSECONDARYQUANTITY) AS USERSECONDARYQUANTITY,
+    SUM(BASESECONDARYQUANTITY) AS BASESECONDARYQUANTITY,
+    SUM(qty_pcs) AS qty_pcs,
+    PRICE,
+    CASE
+        WHEN PRICEUNITOFMEASURECODE = 'yd'
+        AND CURR = 'USD'
+        AND SALDOCPROVISIONALCOUNTERCODE IN (
+            'EXDPROV', 'EXPPROV', 'DREPROV', 'PFEPROV', 'GSEPROV'
+        ) THEN round((SUM(USERSECONDARYQUANTITY)* price), 2)
+        WHEN PRICEUNITOFMEASURECODE = 'yd'
+        AND CURR = 'USD'
+        AND SALDOCPROVISIONALCOUNTERCODE NOT IN (
+            'EXDPROV', 'EXPPROV', 'PFEPROV', 'GSEPROV'
+        ) THEN round((SUM(USERSECONDARYQUANTITY)* price), 2)
+        WHEN PRICEUNITOFMEASURECODE = 'yd'
+        AND CURR = 'IDR'
+        AND SALDOCPROVISIONALCOUNTERCODE IN (
+            'EXDPROV', 'EXPPROV', 'DREPROV', 'PFEPROV', 'GSEPROV'
+        ) THEN FLOOR((SUM(USERSECONDARYQUANTITY)* price))
+        WHEN PRICEUNITOFMEASURECODE = 'yd'
+        AND CURR = 'IDR'
+        AND SALDOCPROVISIONALCOUNTERCODE NOT IN (
+            'EXDPROV', 'EXPPROV', 'PFEPROV', 'GSEPROV'
+        ) THEN FLOOR((SUM(USERSECONDARYQUANTITY)* price))
+        ELSE 0
+    END jml_harga_YD,
+    CASE
+        WHEN PRICEUNITOFMEASURECODE = 'kg'
+        AND CURR = 'USD'
+        AND SALDOCPROVISIONALCOUNTERCODE IN (
+            'EXDPROV', 'EXPPROV', 'DREPROV', 'PFEPROV', 'GSEPROV'
+        ) THEN round((SUM(USERPRIMARYQUANTITY)* price), 2)
+        WHEN PRICEUNITOFMEASURECODE = 'kg'
+        AND CURR = 'USD'
+        AND SALDOCPROVISIONALCOUNTERCODE NOT IN (
+            'EXDPROV', 'EXPPROV', 'PFEPROV', 'GSEPROV'
+        ) THEN round((SUM(USERPRIMARYQUANTITY)* price), 2)
+        WHEN PRICEUNITOFMEASURECODE = 'kg'
+        AND CURR = 'IDR'
+        AND SALDOCPROVISIONALCOUNTERCODE IN (
+            'EXDPROV', 'EXPPROV', 'DREPROV', 'PFEPROV', 'GSEPROV'
+        ) THEN FLOOR((SUM(USERPRIMARYQUANTITY)* price))
+        WHEN PRICEUNITOFMEASURECODE = 'kg'
+        AND CURR = 'IDR'
+        AND SALDOCPROVISIONALCOUNTERCODE NOT IN (
+            'EXDPROV', 'EXPPROV', 'PFEPROV', 'GSEPROV'
+        ) THEN FLOOR((SUM(USERPRIMARYQUANTITY)* price))
+        ELSE 0
+    END jml_harga_kg,
+    CASE
+        WHEN PRICEUNITOFMEASURECODE = 'm'
+        AND CURR = 'USD'
+        AND SALDOCPROVISIONALCOUNTERCODE IN (
+            'EXDPROV', 'EXPPROV', 'DREPROV', 'PFEPROV', 'GSEPROV'
+        ) THEN round((SUM(BASESECONDARYQUANTITY)* price), 2)
+        WHEN PRICEUNITOFMEASURECODE = 'm'
+        AND CURR = 'USD'
+        AND SALDOCPROVISIONALCOUNTERCODE NOT IN (
+            'EXDPROV', 'EXPPROV', 'PFEPROV', 'GSEPROV'
+        ) THEN round((SUM(BASESECONDARYQUANTITY)* price), 2)
+        WHEN PRICEUNITOFMEASURECODE = 'm'
+        AND CURR = 'IDR'
+        AND SALDOCPROVISIONALCOUNTERCODE IN (
+            'EXDPROV', 'EXPPROV', 'DREPROV', 'PFEPROV', 'GSEPROV'
+        ) THEN FLOOR((SUM(BASESECONDARYQUANTITY)* price))
+        WHEN PRICEUNITOFMEASURECODE = 'm'
+        AND CURR = 'IDR'
+        AND SALDOCPROVISIONALCOUNTERCODE NOT IN (
+            'EXDPROV', 'EXPPROV', 'PFEPROV', 'GSEPROV'
+        ) THEN FLOOR((SUM(BASESECONDARYQUANTITY)* price))
+        ELSE 0
+    END jml_harga_m,
+    CASE
+        WHEN PRICEUNITOFMEASURECODE = 'un'
+        AND CURR = 'USD'
+        AND SALDOCPROVISIONALCOUNTERCODE IN (
+            'EXDPROV', 'EXPPROV', 'DREPROV', 'PFEPROV', 'GSEPROV'
+        ) THEN ROUND((SUM(qty_pcs)* price), 2)
+        WHEN PRICEUNITOFMEASURECODE = 'un'
+        AND CURR = 'USD'
+        AND SALDOCPROVISIONALCOUNTERCODE NOT IN (
+            'EXDPROV', 'EXPPROV', 'PFEPROV', 'GSEPROV'
+        ) THEN round((SUM(qty_pcs)* price), 2)
+        WHEN PRICEUNITOFMEASURECODE = 'Lot'
+        AND CURR = 'USD'
+        AND SALDOCPROVISIONALCOUNTERCODE NOT IN (
+            'EXDPROV', 'EXPPROV', 'PFEPROV', 'GSEPROV'
+        ) THEN round((SUM(qty_pcs)* price), 2)
+        WHEN PRICEUNITOFMEASURECODE = 'un'
+        AND CURR = 'IDR'
+        AND SALDOCPROVISIONALCOUNTERCODE IN (
+            'EXDPROV', 'EXPPROV', 'DREPROV', 'PFEPROV', 'GSEPROV'
+        ) THEN FLOOR((SUM(qty_pcs)* price))
+        WHEN PRICEUNITOFMEASURECODE = 'un'
+        AND CURR = 'IDR'
+        AND SALDOCPROVISIONALCOUNTERCODE NOT IN (
+            'EXDPROV', 'EXPPROV', 'PFEPROV', 'GSEPROV'
+        ) THEN FLOOR((SUM(qty_pcs)* price))
+        WHEN PRICEUNITOFMEASURECODE = 'Lot'
+        AND CURR = 'IDR'
+        AND SALDOCPROVISIONALCOUNTERCODE NOT IN (
+            'EXDPROV', 'EXPPROV', 'PFEPROV', 'GSEPROV'
+        ) THEN FLOOR((SUM(qty_pcs)* price))
+        ELSE 0
+    END jml_harga_un,
+    --    QUALITYREASONCODE,
+    ORDERCODE,
+    --    ORDERLINE,    
+    trim(PRICEUNITOFMEASURECODE) AS PRICEUNITOFMEASURECODE,
+    PREVIOUSCODE,
+    trim(SALDOCPROVISIONALCOUNTERCODE) AS SALDOCPROVISIONALCOUNTERCODE,
+    --    PROJECTCODE,
+    ITEMTYPECODE,
+    ALLOCATIONDATE,
+    DECOSUBCODE01,
+    DECOSUBCODE02,
+    DECOSUBCODE03,
+    DECOSUBCODE04,
+    DECOSUBCODE05,
+    DECOSUBCODE06,
+    DECOSUBCODE07,
+    DECOSUBCODE08,
+    CUSTOMERCODE,
+    JENIS_KAIN,
+    NO_ITEM,
+    EXTERNALREFERENCE,
+    WARNA
+FROM
+    (
+        SELECT
+            DISTINCT 
+    SALESDOCUMENTPROVISIONALCODE,
+            DLVSALORDERLINESALESORDERCODE,
+            CODE,
+            LOTCODE,
+            CASE
+                WHEN SALDOCPROVISIONALCOUNTERCODE IN (
+                    'EXDPROV', 'EXPPROV', 'DREPROV', 'PFEPROV'
+                ) THEN SUM(USERPRIMARYQUANTITY)
+                WHEN SALDOCPROVISIONALCOUNTERCODE NOT IN (
+                    'EXDPROV', 'EXPPROV', 'PFEPROV', 'GSEPROV'
+                )THEN SUM(round(USERPRIMARYQUANTITY, 2))
+                ELSE SUM(USERPRIMARYQUANTITY)
+            END USERPRIMARYQUANTITY,
+            CASE
+                WHEN SALDOCPROVISIONALCOUNTERCODE IN (
+                    'EXDPROV', 'EXPPROV', 'DREPROV', 'PFEPROV'
+                ) THEN SUM(USERSECONDARYQUANTITY)
+                WHEN SALDOCPROVISIONALCOUNTERCODE NOT IN (
+                    'EXDPROV', 'EXPPROV', 'PFEPROV', 'GSEPROV'
+                ) THEN SUM(USERSECONDARYQUANTITY)
+                ELSE SUM(USERSECONDARYQUANTITY)
+            END AS USERSECONDARYQUANTITY,
+            CASE
+                WHEN SALDOCPROVISIONALCOUNTERCODE IN (
+                    'EXDPROV', 'EXPPROV', 'DREPROV', 'PFEPROV'
+                ) THEN SUM(BASESECONDARYQUANTITY)
+                WHEN SALDOCPROVISIONALCOUNTERCODE NOT IN (
+                    'EXDPROV', 'EXPPROV', 'PFEPROV', 'GSEPROV'
+                ) THEN SUM(BASESECONDARYQUANTITY)
+                ELSE SUM(BASESECONDARYQUANTITY)
+            END AS BASESECONDARYQUANTITY,
+            CASE
+                WHEN SALDOCPROVISIONALCOUNTERCODE IN (
+                    'EXDPROV', 'EXPPROV', 'DREPROV', 'PFEPROV'
+                ) THEN SUM(qty_pcs)
+                WHEN SALDOCPROVISIONALCOUNTERCODE NOT IN (
+                    'EXDPROV', 'EXPPROV', 'PFEPROV', 'GSEPROV'
+                ) THEN SUM(qty_pcs)
+                ELSE SUM(qty_pcs)
+            END AS qty_pcs,
+            PRICE,
+            QUALITYREASONCODE,
+            ORDERCODE,
+            ORDERLINE,
+            PRICEUNITOFMEASURECODE,
+            PREVIOUSCODE,
+            SALDOCPROVISIONALCOUNTERCODE,
+            --    PROJECTCODE,
+            ITEMTYPECODE,
+            CURR,
+            ALLOCATIONDATE,
+            DECOSUBCODE01,
+            DECOSUBCODE02,
+            DECOSUBCODE03,
+            DECOSUBCODE04,
+            DECOSUBCODE05,
+            DECOSUBCODE06,
+            DECOSUBCODE07,
+            DECOSUBCODE08,
+            CUSTOMERCODE,
+            JENIS_KAIN,
+            NO_ITEM,
+            EXTERNALREFERENCE,
+            WARNA
+        FROM
+            (
+                SELECT
+                    DISTINCT
+        s.SALESDOCUMENTPROVISIONALCODE,
+                    s.DLVSALORDERLINESALESORDERCODE,
+                    ALLOCATION.CODE AS CODE,
+                    iasp.itemelementcode,
+                    iasp.LOTCODE,
+                    CURR.CURR,
+                    CASE
+                        WHEN e.QUALITYREASONCODE = 'FOC'
+                        AND s.SALDOCPROVISIONALCOUNTERCODE IN(
+                            'DREDEF', 'DREPROV', 'DRDDEF', 'DRPPROV'
+                        ) THEN iasp.USERSECONDARYQUANTITY
+                        WHEN e.QUALITYREASONCODE = 'FOC'
+                        AND s.SALDOCPROVISIONALCOUNTERCODE IN(
+                            'EXDPROV', 'EXPPROV', 'PFEPROV'
+                        ) THEN 0
+                        WHEN ALLOCATION.CODE IN (
+                            '000000396037', '000000396038', '000000396042', '000000396043', '000000396047', '000000396048'
+                        ) THEN 0
+                        ELSE iasp.USERSECONDARYQUANTITY
+                    END USERSECONDARYQUANTITY,
+                    CASE
+                        WHEN e.QUALITYREASONCODE = 'FOC'
+                        AND s.SALDOCPROVISIONALCOUNTERCODE IN(
+                            'DREDEF', 'DREPROV', 'DRDDEF', 'DRPPROV'
+                        ) THEN iasp.USERPRIMARYQUANTITY
+                        WHEN e.QUALITYREASONCODE = 'FOC'
+                        AND s.SALDOCPROVISIONALCOUNTERCODE IN(
+                            'EXDPROV', 'EXPPROV', 'PFEPROV'
+                        ) THEN 0
+                        WHEN ALLOCATION.CODE IN (
+                            '000000396037', '000000396038', '000000396042', '000000396043', '000000396047', '000000396048'
+                        ) THEN 0
+                        ELSE iasp.USERPRIMARYQUANTITY
+                    END USERPRIMARYQUANTITY,
+                    CASE
+                        WHEN e.QUALITYREASONCODE = 'FOC'
+                        AND s.SALDOCPROVISIONALCOUNTERCODE IN(
+                            'DREDEF', 'DREPROV', 'DRDDEF', 'DRPPROV'
+                        ) THEN iasp.BASESECONDARYQUANTITY
+                        WHEN e.QUALITYREASONCODE = 'FOC'
+                        AND s.SALDOCPROVISIONALCOUNTERCODE IN(
+                            'EXDPROV', 'EXPPROV', 'PFEPROV'
+                        ) THEN 0
+                        WHEN ALLOCATION.ITEMTYPECODE <> 'CAP'
+                        AND iasp.BASESECONDARYUOMCODE IN(
+                            'Lot', 'un'
+                        ) THEN round(iasp.BASESECONDARYQUANTITY , 2)
+                        WHEN iasp.ITEMTYPECODE = 'CAP'
+                        AND iasp.BASEPRIMARYUOMCODE IN(
+                            'Lot', 'un'
+                        ) THEN iasp.BASEPRIMARYQUANTITY
+                        WHEN ALLOCATION.CODE IN (
+                            '000000396037', '000000396038', '000000396042', '000000396043', '000000396047', '000000396048'
+                        ) THEN 0
+                        ELSE 0
+                    END qty_pcs,
+                    CASE
+                        WHEN e.QUALITYREASONCODE = 'FOC'
+                        AND s.SALDOCPROVISIONALCOUNTERCODE IN(
+                            'DREDEF', 'DREPROV', 'DRDDEF', 'DRPPROV'
+                        ) THEN ROUND(iasp.BASESECONDARYQUANTITY * 0.9144, 2)
+                        WHEN e.QUALITYREASONCODE = 'FOC'
+                        AND s.SALDOCPROVISIONALCOUNTERCODE IN(
+                            'EXDPROV', 'EXPPROV', 'PFEPROV'
+                        ) THEN 0
+                        WHEN ALLOCATION.CODE IN (
+                            '000000396037', '000000396038', '000000396042', '000000396043', '000000396047', '000000396048'
+                        ) THEN 0
+                        ELSE ROUND(iasp.BASESECONDARYQUANTITY * 0.9144, 2)
+                    END BASESECONDARYQUANTITY,
+                    CASE
+                        WHEN e.QUALITYREASONCODE = 'FOC' THEN iasp.USERPRIMARYQUANTITY
+                        ELSE 0
+                    END AS FOC_KG,
+                    CASE
+                        WHEN e.QUALITYREASONCODE = 'FOC' THEN iasp.USERSECONDARYQUANTITY
+                        ELSE 0
+                    END AS FOC_YARD,
+                    CASE
+                        WHEN ALLOCATION.CODE IN (
+                            '000000396037', '000000396038', '000000396042', '000000396043', '000000396047', '000000396048'
+                        ) THEN 0
+                        ELSE s.PRICE
+                    END AS PRICE,
+                    s.PRICEUNITOFMEASURECODE,
+                    e.QUALITYREASONCODE,
+                    s.PREVIOUSCODE,
+                    s.SALDOCPROVISIONALCOUNTERCODE,
+                    ALLOCATION.ORDERCODE AS ORDERCODE,
+                    ALLOCATION.ORDERLINE AS ORDERLINE,
+                    --        ALLOCATION.PROJECTCODE AS PROJECTCODE,
+                    ALLOCATION.ITEMTYPECODE,
+                    ALLOCATION.ALLOCATIONDATE AS ALLOCATIONDATE,
+                    ALLOCATION.DECOSUBCODE01 AS DECOSUBCODE01,
+                    ALLOCATION.DECOSUBCODE02 AS DECOSUBCODE02,
+                    ALLOCATION.DECOSUBCODE03 AS DECOSUBCODE03,
+                    ALLOCATION.DECOSUBCODE04 AS DECOSUBCODE04,
+                    ALLOCATION.DECOSUBCODE05 AS DECOSUBCODE05,
+                    ALLOCATION.DECOSUBCODE06 AS DECOSUBCODE06,
+                    ALLOCATION.DECOSUBCODE07 AS DECOSUBCODE07,
+                    ALLOCATION.DECOSUBCODE08 AS DECOSUBCODE08,
+                    ALLOCATION.CUSTOMERCODE AS CUSTOMERCODE,
+                    PRODUCT.LONGDESCRIPTION AS JENIS_KAIN,
+                    a.EXTERNALITEMCODE AS NO_ITEM,
+                    a.EXTERNALREFERENCE AS EXTERNALREFERENCE,
+                    UPPER(i.WARNA)AS WARNA
+                FROM
+                    ALLOCATION ALLOCATION
+                LEFT JOIN PRODUCT PRODUCT ON
+                    ALLOCATION.ITEMTYPECODE = PRODUCT.ITEMTYPECODE
+                    AND ALLOCATION.DECOSUBCODE01 = PRODUCT.SUBCODE01
+                    AND ALLOCATION.DECOSUBCODE02 = PRODUCT.SUBCODE02
+                    AND ALLOCATION.DECOSUBCODE03 = PRODUCT.SUBCODE03
+                    AND ALLOCATION.DECOSUBCODE04 = PRODUCT.SUBCODE04
+                    AND ALLOCATION.DECOSUBCODE05 = PRODUCT.SUBCODE05
+                    AND ALLOCATION.DECOSUBCODE06 = PRODUCT.SUBCODE06
+                    AND ALLOCATION.DECOSUBCODE07 = PRODUCT.SUBCODE07
+                    AND ALLOCATION.DECOSUBCODE08 = PRODUCT.SUBCODE08
+                    AND ALLOCATION.DECOSUBCODE09 = PRODUCT.SUBCODE09
+                    AND ALLOCATION.DECOSUBCODE10 = PRODUCT.SUBCODE10
+                LEFT JOIN ITXVIEWORDERPARTNERLINKACTIVE a ON
+                    ALLOCATION.CUSTOMERCODE = a.ORDPRNCUSTOMERSUPPLIERCODE
+                    AND ALLOCATION.ITEMTYPECODE = a.ITEMTYPEAFICODE
+                    AND ALLOCATION.DECOSUBCODE01 = a.SUBCODE01
+                    AND ALLOCATION.DECOSUBCODE02 = a.SUBCODE02
+                    AND ALLOCATION.DECOSUBCODE03 = a.SUBCODE03
+                    AND ALLOCATION.DECOSUBCODE04 = a.SUBCODE04
+                    AND ALLOCATION.DECOSUBCODE05 = a.SUBCODE05
+                    AND ALLOCATION.DECOSUBCODE06 = a.SUBCODE06
+                    AND ALLOCATION.DECOSUBCODE07 = a.SUBCODE07
+                LEFT JOIN ITXVIEW_ALLOCATION_SURATJALAN_PPC iasp ON
+                    iasp.CODE = ALLOCATION.CODE
+                    AND iasp.DECOSUBCODE01 = ALLOCATION.DECOSUBCODE01
+                    AND iasp.DECOSUBCODE02 = ALLOCATION.DECOSUBCODE02
+                    AND iasp.DECOSUBCODE03 = ALLOCATION.DECOSUBCODE03
+                    AND iasp.DECOSUBCODE04 = ALLOCATION.DECOSUBCODE04
+                    AND iasp.DECOSUBCODE05 = ALLOCATION.DECOSUBCODE05
+                    AND iasp.DECOSUBCODE06 = ALLOCATION.DECOSUBCODE06
+                    AND iasp.DECOSUBCODE07 = ALLOCATION.DECOSUBCODE07
+                LEFT JOIN ELEMENTS e ON
+                    iasp.itemelementcode = e.CODE
+                LEFT JOIN SALESDOCUMENTLINE s ON
+                    ALLOCATION.DECOSUBCODE01 = s.SUBCODE01
+                    AND ALLOCATION.DECOSUBCODE02 = s.SUBCODE02
+                    AND ALLOCATION.DECOSUBCODE03 = s.SUBCODE03
+                    AND ALLOCATION.DECOSUBCODE04 = s.SUBCODE04
+                    AND ALLOCATION.DECOSUBCODE05 = s.SUBCODE05
+                    AND ALLOCATION.DECOSUBCODE06 = s.SUBCODE06
+                    AND ALLOCATION.DECOSUBCODE07 = s.SUBCODE07
+                    AND ALLOCATION.ORDERCODE = s.SALESDOCUMENTPROVISIONALCODE
+                    AND ALLOCATION.ORDERLINE = s.ORDERLINE
+                LEFT JOIN ITXVIEWCOLOR i ON
+                    ALLOCATION.ITEMTYPECODE = i.ITEMTYPECODE
+                    AND ALLOCATION.DECOSUBCODE01 = i.SUBCODE01
+                    AND ALLOCATION.DECOSUBCODE02 = i.SUBCODE02
+                    AND ALLOCATION.DECOSUBCODE03 = i.SUBCODE03
+                    AND ALLOCATION.DECOSUBCODE04 = i.SUBCODE04
+                    AND ALLOCATION.DECOSUBCODE05 = i.SUBCODE05
+                    AND ALLOCATION.DECOSUBCODE06 = i.SUBCODE06
+                    AND ALLOCATION.DECOSUBCODE07 = i.SUBCODE07
+                    AND ALLOCATION.DECOSUBCODE08 = i.SUBCODE08
+                    AND ALLOCATION.DECOSUBCODE09 = i.SUBCODE09
+                    AND ALLOCATION.DECOSUBCODE10 = i.SUBCODE10
+                LEFT JOIN ITXVIEW_INVOICE_CURR_GRANDTOTAL CURR ON
+                    CURR.NO_SJ = s.SALESDOCUMENTPROVISIONALCODE
+                WHERE
+                    ALLOCATION.DETAILTYPE = '1'
+                    AND
+	    		ALLOCATION.ORIGINTRNTRANSACTIONNUMBER IS NULL
+                    AND
+	    		ALLOCATION.DESTINATIONTYPE = '7'
+                    --AND ALLOCATION.ORDERCODE IN ('ESP2300844')
+            )
+        WHERE
+            USERPRIMARYQUANTITY <> 0
+            --    AND SALESDOCUMENTPROVISIONALCODE='ESP2300764'
+            --    AND WARNA = 'BLACK 095A'
+            --    AND LOTCODE = '00109262'
+        GROUP BY
+            SALESDOCUMENTPROVISIONALCODE,
+            DLVSALORDERLINESALESORDERCODE,
+            CODE,
+            LOTCODE,
+            ORDERCODE,
+            ORDERLINE,
+            --    PROJECTCODE,
+            PRICE,
+            PRICEUNITOFMEASURECODE,
+            PREVIOUSCODE,
+            ALLOCATIONDATE,
+            ITEMTYPECODE,
+            SALDOCPROVISIONALCOUNTERCODE,
+            DECOSUBCODE01,
+            DECOSUBCODE02,
+            DECOSUBCODE03,
+            DECOSUBCODE04,
+            DECOSUBCODE05,
+            DECOSUBCODE06,
+            DECOSUBCODE07,
+            DECOSUBCODE08,
+            CUSTOMERCODE,
+            QUALITYREASONCODE,
+            JENIS_KAIN,
+            NO_ITEM,
+            CURR,
+            EXTERNALREFERENCE,
+            WARNA
+    )
+GROUP BY
+    SALESDOCUMENTPROVISIONALCODE,
+    --CODE,
+    LOTCODE,
+    --    QUALITYREASONCODE,
+    ORDERCODE,
+    --    ORDERLINE,    
+    PRICEUNITOFMEASURECODE,
+    PREVIOUSCODE,
+    SALDOCPROVISIONALCOUNTERCODE,
+    --    PROJECTCODE,
+    ITEMTYPECODE,
+    CURR,
+    PRICE,
+    ALLOCATIONDATE,
+    DECOSUBCODE01,
+    DECOSUBCODE02,
+    DECOSUBCODE03,
+    DECOSUBCODE04,
+    DECOSUBCODE05,
+    DECOSUBCODE06,
+    DECOSUBCODE07,
+    DECOSUBCODE08,
+    CUSTOMERCODE,
+    JENIS_KAIN,
+    NO_ITEM,
+    EXTERNALREFERENCE,
+    WARNA;

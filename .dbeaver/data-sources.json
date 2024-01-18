@@ -14,9 +14,6 @@
 				"configurationType": "MANUAL",
 				"type": "dev",
 				"auth-model": "native"
-			},
-			"custom-properties": {
-				"SQLEditor.outputPanel.autoShow": "false"
 			}
 		},
 		"db2-188c7993f12-669ede334700a02e": {
@@ -32,6 +29,9 @@
 				"configurationType": "MANUAL",
 				"type": "dev",
 				"auth-model": "native"
+			},
+			"custom-properties": {
+				"resultset.maxrows": "2000"
 			}
 		},
 		"mysql8-188c799ebd5-4bc8c8745f63cb21": {
@@ -52,7 +52,8 @@
 				"dataformat.profile.country": "US",
 				"dataformat.profile.language": "en",
 				"dataformat.type.number.nativeSpecialValues": "true",
-				"resultset.grid.value.format": "UI"
+				"resultset.grid.value.format": "UI",
+				"resultset.maxrows": "20000"
 			}
 		},
 		"microsoft-188c79b5cdb-15a7b97bf7563323": {
@@ -71,6 +72,9 @@
 					"sslTrustServerCertificate": "false"
 				},
 				"auth-model": "sqlserver_database"
+			},
+			"custom-properties": {
+				"resultset.maxrows": "200000"
 			}
 		},
 		"microsoft-188c79c388b-658c156b424d4b6e": {
