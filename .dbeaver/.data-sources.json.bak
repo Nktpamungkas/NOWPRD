@@ -14,9 +14,6 @@
 				"configurationType": "MANUAL",
 				"type": "dev",
 				"auth-model": "native"
-			},
-			"custom-properties": {
-				"resultset.maxrows": "2000"
 			}
 		},
 		"db2-188c7993f12-669ede334700a02e": {
@@ -55,8 +52,7 @@
 				"dataformat.profile.country": "US",
 				"dataformat.profile.language": "en",
 				"dataformat.type.number.nativeSpecialValues": "true",
-				"resultset.grid.value.format": "UI",
-				"resultset.maxrows": "20000"
+				"resultset.grid.value.format": "UI"
 			}
 		},
 		"microsoft-188c79b5cdb-15a7b97bf7563323": {
