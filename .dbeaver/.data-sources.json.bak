@@ -14,6 +14,9 @@
 				"configurationType": "MANUAL",
 				"type": "dev",
 				"auth-model": "native"
+			},
+			"custom-properties": {
+				"resultset.maxrows": "2000"
 			}
 		},
 		"db2-188c7993f12-669ede334700a02e": {
@@ -29,9 +32,6 @@
 				"configurationType": "MANUAL",
 				"type": "dev",
 				"auth-model": "native"
-			},
-			"custom-properties": {
-				"resultset.maxrows": "2000"
 			}
 		},
 		"mysql8-188c799ebd5-4bc8c8745f63cb21": {
