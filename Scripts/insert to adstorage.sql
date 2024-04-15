@@ -1,0 +1,73 @@
+INSERT INTO ADSTORAGE (UNIQUEID,NAMEENTITYNAME,NAMENAME,FIELDNAME,KEYSEQUENCE,SHARED,DATATYPE,VALUESTRING,VALUEINT,VALUEBOOLEAN,VALUEDATE,VALUEDECIMAL,VALUELONG,VALUETIME,VALUETIMESTAMP,ABSUNIQUEID)
+VALUES ('75936886',
+		'ElementsInspection                                ',
+		'CuttingLoss                                       ',
+		'CuttingLossCode',
+		'1',
+		'0',
+		'0',
+		'valuenya disini 1',
+		'0',
+		'0',
+		NULL,
+		NULL,
+		'0',
+		NULL,
+		NULL,
+		'0')
+		
+INSERT INTO ADSTORAGE (UNIQUEID,NAMEENTITYNAME,NAMENAME,FIELDNAME,KEYSEQUENCE,SHARED,DATATYPE,VALUESTRING,VALUEINT,VALUEBOOLEAN,VALUEDATE,VALUEDECIMAL,VALUELONG,VALUETIME,VALUETIMESTAMP,ABSUNIQUEID)
+VALUES ('75936886',
+		'ElementsInspection                                ',
+		'Defect                                            ',
+		'DefectCode',
+		'1',
+		'0',
+		'0',
+		'valuenya disini 2',
+		'0',
+		'0',
+		NULL,
+		NULL,
+		'0',
+		NULL,
+		NULL,
+		'0')      
+		
+INSERT INTO ADSTORAGE (UNIQUEID,NAMEENTITYNAME,NAMENAME,FIELDNAME,KEYSEQUENCE,SHARED,DATATYPE,VALUESTRING,VALUEINT,VALUEBOOLEAN,VALUEDATE,VALUEDECIMAL,VALUELONG,VALUETIME,VALUETIMESTAMP,ABSUNIQUEID)
+VALUES ('75936886',
+		'ElementsInspection                                ',
+		'DisposisiDefect                                   ',
+		'DisposisiDefectCode',
+		'1',
+		'0',
+		'0',
+		'valuenya disini 3',
+		'0',
+		'0',
+		NULL,
+		NULL,
+		'0',
+		NULL,
+		NULL,
+		'0')    
+		
+		
+INSERT INTO ADSTORAGE (UNIQUEID,NAMEENTITYNAME,NAMENAME,FIELDNAME,KEYSEQUENCE,SHARED,DATATYPE,VALUESTRING,VALUEINT,VALUEBOOLEAN,VALUEDATE,VALUEDECIMAL,VALUELONG,VALUETIME,VALUETIMESTAMP,ABSUNIQUEID)
+VALUES ('75936886',
+		'ElementsInspection                                ',
+		'PenanggungJawab                                   ',
+		'PenanggungJawabCode',
+		'1',
+		'0',
+		'0',
+		'valuenya disini 4',
+		'0',
+		'0',
+		NULL,
+		NULL,
+		'0',
+		NULL,
+		NULL,
+		'0')   	
+		
