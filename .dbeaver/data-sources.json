@@ -35,10 +35,8 @@
 			}
 		},
 		"mysql8-188c799ebd5-4bc8c8745f63cb21": {
-			"provider": "mysql-ee",
+			"provider": "mysql",
 			"driver": "mysql8",
-			"original-provider": "mysql",
-			"original-driver": "mysql8",
 			"name": "svr10",
 			"save-password": true,
 			"configuration": {
@@ -58,10 +56,8 @@
 			}
 		},
 		"microsoft-188c79b5cdb-15a7b97bf7563323": {
-			"provider": "sqlserver-ee",
+			"provider": "sqlserver",
 			"driver": "microsoft",
-			"original-provider": "sqlserver",
-			"original-driver": "microsoft",
 			"name": "10.0.4.8",
 			"save-password": true,
 			"configuration": {
@@ -81,10 +77,8 @@
 			}
 		},
 		"microsoft-188c79c388b-658c156b424d4b6e": {
-			"provider": "sqlserver-ee",
+			"provider": "sqlserver",
 			"driver": "microsoft",
-			"original-provider": "sqlserver",
-			"original-driver": "microsoft",
 			"name": "TAICHEN_CAMS_LIVE",
 			"save-password": true,
 			"configuration": {
@@ -102,10 +96,8 @@
 			}
 		},
 		"microsoft-188d1ee8fe5-3967f4c35983dcec": {
-			"provider": "sqlserver-ee",
+			"provider": "sqlserver",
 			"driver": "microsoft",
-			"original-provider": "sqlserver",
-			"original-driver": "microsoft",
 			"name": "HMTAS_Indotaichen",
 			"save-password": true,
 			"configuration": {
@@ -123,10 +115,8 @@
 			}
 		},
 		"mysql8-18dcf0c0aae-59c400b0c52b3423": {
-			"provider": "mysql-ee",
+			"provider": "mysql",
 			"driver": "mysql8",
-			"original-provider": "mysql",
-			"original-driver": "mysql8",
 			"name": "localhost",
 			"save-password": true,
 			"configuration": {
@@ -140,7 +130,7 @@
 			}
 		}
 	},
-	"virtual-models": {"db2-188c780c95d-6e595888f89fe57c":{"DB2ADMIN":{":VIEWPRODUCTIONDEMANDSTEP":{"constraints":{"VIRTUAL_PK":{"type":"vpk","useAllColumns":true}}},":PRODUCTIONORDER":{"description":"ALLOWEDDIVISIONS","constraints":{}}},"SYSCAT":{":INDEXES":{"constraints":{"VIRTUAL_PK":{"type":"vpk","useAllColumns":true}}}}}},
+	"virtual-models": {"db2-188c780c95d-6e595888f89fe57c":{"DB2ADMIN":{":VIEWPRODUCTIONDEMANDSTEP":{"constraints":{"VIRTUAL_PK":{"type":"vpk","useAllColumns":true}}},":PRODUCTIONORDER":{"description":"ALLOWEDDIVISIONS"},":BUSINESSPARTNER":{"constraints":{},"foreign-keys":[{"entity":"node://NOWPRD_GIT/datasources/db2-188c780c95d-6e595888f89fe57c/schema/DB2ADMIN/table/COUNTRY","constraint":"COUNTRY_VK","attributes":{"ADDRESSLINE3":"SEPAMEMBER"}}]},":COUNTRY":{"constraints":{"COUNTRY_VK":{"type":"vpk","attributes":["SEPAMEMBER"]}}}},"SYSCAT":{":INDEXES":{"constraints":{"VIRTUAL_PK":{"type":"vpk","useAllColumns":true}}}}}},
 	"connection-types": {
 		"dev": {
 			"name": "Development",
@@ -152,7 +142,9 @@
 			"smart-commit": false,
 			"smart-commit-recover": false,
 			"auto-close-transactions": true,
-			"close-transactions-period": 1800
+			"close-transactions-period": 1800,
+			"auto-close-connections": true,
+			"close-connections-period": 3600
 		}
 	}
 }
