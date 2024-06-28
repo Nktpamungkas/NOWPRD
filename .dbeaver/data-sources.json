@@ -128,9 +128,24 @@
 				"type": "dev",
 				"auth-model": "native"
 			}
+		},
+		"db2-18f12cb161a-4a3a09b63d817d20": {
+			"provider": "db2",
+			"driver": "db2",
+			"name": "NOWPRD2",
+			"save-password": true,
+			"configuration": {
+				"host": "10.0.1.105",
+				"port": "25000",
+				"database": "NOWPRD2",
+				"url": "jdbc:db2://10.0.1.105:25000/NOWPRD2",
+				"configurationType": "MANUAL",
+				"type": "dev",
+				"auth-model": "native"
+			}
 		}
 	},
-	"virtual-models": {"db2-188c780c95d-6e595888f89fe57c":{"DB2ADMIN":{":VIEWPRODUCTIONDEMANDSTEP":{"constraints":{"VIRTUAL_PK":{"type":"vpk","useAllColumns":true}}},":PRODUCTIONORDER":{"description":"ALLOWEDDIVISIONS"},":BUSINESSPARTNER":{"constraints":{},"foreign-keys":[{"entity":"node://NOWPRD_GIT/datasources/db2-188c780c95d-6e595888f89fe57c/schema/DB2ADMIN/table/COUNTRY","constraint":"COUNTRY_VK","attributes":{"ADDRESSLINE3":"SEPAMEMBER"}}]},":COUNTRY":{"constraints":{"COUNTRY_VK":{"type":"vpk","attributes":["SEPAMEMBER"]}}}},"SYSCAT":{":INDEXES":{"constraints":{"VIRTUAL_PK":{"type":"vpk","useAllColumns":true}}}}}},
+	"virtual-models": {"db2-188c780c95d-6e595888f89fe57c":{"DB2ADMIN":{":VIEWPRODUCTIONDEMANDSTEP":{"constraints":{"VIRTUAL_PK":{"type":"vpk","useAllColumns":true}}},":PRODUCTIONORDER":{"description":"ALLOWEDDIVISIONS"},":BUSINESSPARTNER":{"foreign-keys":[{"entity":"node://NOWPRD_GIT/datasources/db2-188c780c95d-6e595888f89fe57c/schema/DB2ADMIN/table/COUNTRY","constraint":"COUNTRY_VK","attributes":{"ADDRESSLINE3":"SEPAMEMBER"}}]},":COUNTRY":{"constraints":{"COUNTRY_VK":{"type":"vpk","attributes":["SEPAMEMBER"]}}}},"SYSCAT":{":INDEXES":{"constraints":{"VIRTUAL_PK":{"type":"vpk","useAllColumns":true}}}}}},
 	"connection-types": {
 		"dev": {
 			"name": "Development",
