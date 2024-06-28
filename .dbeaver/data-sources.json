@@ -145,7 +145,7 @@
 			}
 		}
 	},
-	"virtual-models": {"db2-188c780c95d-6e595888f89fe57c":{"DB2ADMIN":{":VIEWPRODUCTIONDEMANDSTEP":{"constraints":{"VIRTUAL_PK":{"type":"vpk","useAllColumns":true}}},":PRODUCTIONORDER":{"description":"ALLOWEDDIVISIONS"},":BUSINESSPARTNER":{"foreign-keys":[{"entity":"node://NOWPRD_GIT/datasources/db2-188c780c95d-6e595888f89fe57c/schema/DB2ADMIN/table/COUNTRY","constraint":"COUNTRY_VK","attributes":{"ADDRESSLINE3":"SEPAMEMBER"}}]},":COUNTRY":{"constraints":{"COUNTRY_VK":{"type":"vpk","attributes":["SEPAMEMBER"]}}}},"SYSCAT":{":INDEXES":{"constraints":{"VIRTUAL_PK":{"type":"vpk","useAllColumns":true}}}}}},
+	"virtual-models": {"db2-188c780c95d-6e595888f89fe57c":{"DB2ADMIN":{":VIEWPRODUCTIONDEMANDSTEP":{"constraints":{"VIRTUAL_PK":{"type":"vpk","useAllColumns":true}}},":PRODUCTIONORDER":{"description":"ALLOWEDDIVISIONS","constraints":{}},":BUSINESSPARTNER":{"constraints":{},"foreign-keys":[{"entity":"node://NOWPRD_GIT/datasources/db2-188c780c95d-6e595888f89fe57c/schema/DB2ADMIN/table/COUNTRY","constraint":"COUNTRY_VK","attributes":{"ADDRESSLINE3":"SEPAMEMBER"}}]},":COUNTRY":{"constraints":{"COUNTRY_VK":{"type":"vpk","attributes":["SEPAMEMBER"]}}},":LOGICALWAREHOUSE":{"constraints":{"LOGICALWAREHOUSE_VK":{"type":"vpk","attributes":["ALLOWEDDIVISIONS"]}}}},"SYSCAT":{":INDEXES":{"constraints":{"VIRTUAL_PK":{"type":"vpk","useAllColumns":true}}}}}},
 	"connection-types": {
 		"dev": {
 			"name": "Development",
