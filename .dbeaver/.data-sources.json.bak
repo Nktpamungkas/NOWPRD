@@ -13,11 +13,11 @@
 				"url": "jdbc:db2://10.0.0.21:25000/NOWPRD",
 				"configurationType": "MANUAL",
 				"type": "dev",
+				"closeIdleConnection": false,
 				"auth-model": "native"
 			},
 			"custom-properties": {
-				"resultset.grid.value.format": "UI",
-				"resultset.maxrows": "2000"
+				"resultset.grid.value.format": "UI"
 			}
 		},
 		"db2-188c7993f12-669ede334700a02e": {
@@ -32,6 +32,7 @@
 				"url": "jdbc:db2://10.0.0.21:25000/NOWTEST",
 				"configurationType": "MANUAL",
 				"type": "dev",
+				"closeIdleConnection": false,
 				"auth-model": "native"
 			},
 			"custom-properties": {
@@ -50,6 +51,7 @@
 				"configurationType": "MANUAL",
 				"home": "mysql_client",
 				"type": "dev",
+				"closeIdleConnection": false,
 				"auth-model": "native"
 			},
 			"custom-properties": {
@@ -70,6 +72,7 @@
 				"url": "jdbc:sqlserver://;serverName\u003d10.0.4.8;",
 				"configurationType": "MANUAL",
 				"type": "dev",
+				"closeIdleConnection": false,
 				"provider-properties": {
 					"@dbeaver-show-all-schemas@": "false",
 					"sslTrustServerCertificate": "false"
@@ -92,6 +95,7 @@
 				"url": "jdbc:sqlserver://;serverName\u003dS-CATS;databaseName\u003dTAICHEN_CAMS_LIVE",
 				"configurationType": "MANUAL",
 				"type": "dev",
+				"closeIdleConnection": false,
 				"provider-properties": {
 					"@dbeaver-show-all-schemas@": "false",
 					"sslTrustServerCertificate": "false"
@@ -111,6 +115,7 @@
 				"url": "jdbc:sqlserver://;serverName\u003d10.0.0.13;databaseName\u003dHMTAS_Indotaichen",
 				"configurationType": "MANUAL",
 				"type": "dev",
+				"closeIdleConnection": false,
 				"provider-properties": {
 					"@dbeaver-show-all-schemas@": "false",
 					"sslTrustServerCertificate": "false"
@@ -130,6 +135,7 @@
 				"configurationType": "MANUAL",
 				"home": "mysql_client",
 				"type": "dev",
+				"closeIdleConnection": false,
 				"auth-model": "native"
 			}
 		},
@@ -145,7 +151,28 @@
 				"url": "jdbc:db2://10.0.1.105:25000/NOWPRD2",
 				"configurationType": "MANUAL",
 				"type": "dev",
+				"closeIdleConnection": false,
 				"auth-model": "native"
+			}
+		},
+		"microsoft-1909160458e-6d2a7a18cd5afd93": {
+			"provider": "sqlserver",
+			"driver": "microsoft",
+			"name": "SQL_NOWPRD",
+			"save-password": true,
+			"configuration": {
+				"host": "10.0.0.221",
+				"port": "1433",
+				"database": "master",
+				"url": "jdbc:sqlserver://;serverName\u003d10.0.0.221;databaseName\u003dmaster",
+				"configurationType": "MANUAL",
+				"type": "dev",
+				"closeIdleConnection": true,
+				"provider-properties": {
+					"@dbeaver-show-all-schemas@": "false",
+					"sslTrustServerCertificate": "false"
+				},
+				"auth-model": "sqlserver_database"
 			}
 		}
 	},
@@ -163,7 +190,7 @@
 			"auto-close-transactions": true,
 			"close-transactions-period": 1800,
 			"auto-close-connections": true,
-			"close-connections-period": 3600
+			"close-connections-period": 14400
 		}
 	}
 }
