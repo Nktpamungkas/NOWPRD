@@ -34,9 +34,6 @@
 				"type": "dev",
 				"closeIdleConnection": false,
 				"auth-model": "native"
-			},
-			"custom-properties": {
-				"resultset.maxrows": "2000"
 			}
 		},
 		"mysql8-188c799ebd5-4bc8c8745f63cb21": {
