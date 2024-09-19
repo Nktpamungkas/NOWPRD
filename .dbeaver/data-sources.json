@@ -76,9 +76,6 @@
 					"sslTrustServerCertificate": "false"
 				},
 				"auth-model": "sqlserver_database"
-			},
-			"custom-properties": {
-				"resultset.maxrows": "200000"
 			}
 		},
 		"microsoft-188c79c388b-658c156b424d4b6e": {
