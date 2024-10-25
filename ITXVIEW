@@ -16069,7 +16069,8 @@ SELECT
     Payment_code,
     PRICEUNITOFMEASURECODE,
     HS_CODE,
-    KAIN_AKJ
+    KAIN_AKJ,
+    item_type
 FROM
     (
         SELECT
@@ -16154,7 +16155,8 @@ FROM
             CASE
                 WHEN a5.VALUESTRING = 1 THEN 'AKJ'
                 ELSE 'NON-AKJ'
-            END KAIN_AKJ
+            END KAIN_AKJ,
+            s2.ITEMTYPEAFICODE AS item_type
         FROM
             SALESDOCUMENT s
         LEFT JOIN SALESDOCUMENTLINE s2 ON
@@ -16229,7 +16231,7 @@ FROM
             AND s.COMPANYCODE = u.USERGENGROUPTYPECOMPANYCODE
         LEFT JOIN PAYMENTMETHOD p2 ON
             p2.CODE = s.PAYMENTMETHODCODE
-            --                        WHERE s.PROVISIONALCODE ='ESP2400010'
+            --                                WHERE s.PROVISIONALCODE ='ESP2400784'
         GROUP BY
             s.PROVISIONALCODE,
             s.PROVISIONALDOCUMENTDATE,
@@ -16248,6 +16250,7 @@ FROM
             s.PAYMENTMETHODCODE,
             a.VALUESTRING ,
             s2.PRICEUNITOFMEASURECODE,
+            s2.ITEMTYPEAFICODE,
             ADDRESS.CODE ,
             ADDRESS.ADDRESSEE,
             ADDRESS.ADDRESSLINE1,
@@ -18861,6 +18864,10 @@ SELECT
         ELSE 0
     END AS jml_roll,
     CASE
+        WHEN ITEMTYPEAFICODE = 'KGF' THEN sum(jml_roll)
+        ELSE 0
+    END AS jml_roll_KGF,
+    CASE
         WHEN ITEMTYPEAFICODE = 'FKF' THEN sum(jml_roll)
         ELSE 0
     END AS jml_BALES,
@@ -18928,7 +18935,7 @@ FROM
                     E.CODE = ALLOCATION.ITEMELEMENTCODE
                 WHERE
                     ALLOCATION.ORIGINTRNTRANSACTIONNUMBER IS NULL
-                    --    		        AND ITXVIEW_PACKINGLIST_EXIM.PROVISIONALCODE = 'PED2400320'
+                    --                		        AND ITXVIEW_PACKINGLIST_EXIM.PROVISIONALCODE = 'ESP2400784'
             )
         GROUP BY
             PROVISIONALCODE,
@@ -21737,11 +21744,11 @@ SELECT
         AND ITEMTYPECODE = 'KFF' THEN FLOOR(SUM(jml_harga_kg))
         WHEN CURR = 'USD'
         AND ITEMTYPECODE IN (
-            'FKF', 'CAP', 'DYC'
+            'FKF', 'CAP', 'DYC', 'GYR', 'GEL'
         ) THEN round(SUM(jml_harga_kg_FKF), 2)
         WHEN CURR = 'IDR'
         AND ITEMTYPECODE IN (
-            'FKF', 'CAP', 'DYC'
+            'FKF', 'CAP', 'DYC', 'GYR', 'GEL'
         ) THEN FLOOR(SUM(jml_harga_kg_FKF))
     END AS TOTAL_jml_harga_kg,
        CASE
@@ -21785,7 +21792,12 @@ FROM
             sum(USERPRIMARYQUANTITY) AS total_kg,
             sum(USERSECONDARYQUANTITY) AS total_yard,
             sum(BASESECONDARYQUANTITY) AS total_meter,
-            sum(qty_pcs) AS total_unit,
+            CASE
+                WHEN ITEMTYPECODE IN (
+                    'DYC', 'GYR', 'GEL'
+                ) THEN SUM(DUS)
+                ELSE sum(qty_pcs)
+            END AS total_unit,
             SUM(jml_harga_YD_FKF) AS jml_harga_YD_FKF,
             SUM(jml_harga_kg_FKF) AS jml_harga_kg_FKF,
             SUM(jml_harga_m_fKF) AS jml_harga_m_fKF,
@@ -21837,6 +21849,7 @@ FROM
                     SUM(USERSECONDARYQUANTITY) AS USERSECONDARYQUANTITY,
                     SUM(BASESECONDARYQUANTITY)AS BASESECONDARYQUANTITY,
                     SUM(qty_pcs) AS qty_pcs,
+                    COUNT(CODE)AS DUS,
                     PRICE,
                     CASE
                         WHEN PRICEUNITOFMEASURECODE = 'yd'
@@ -21855,12 +21868,12 @@ FROM
                         WHEN PRICEUNITOFMEASURECODE = 'kg'
                         AND CURR = 'USD'
                         AND ITEMTYPECODE IN (
-                            'FKF', 'CAP', 'DYC'
+                            'FKF', 'CAP', 'DYC', 'GYR', 'GEL'
                         ) THEN round((SUM(USERPRIMARYQUANTITY)* price), 2)
                         WHEN PRICEUNITOFMEASURECODE = 'kg'
                         AND CURR = 'IDR'
                         AND ITEMTYPECODE IN (
-                            'FKF', 'CAP', 'DYC'
+                            'FKF', 'CAP', 'DYC', 'GYR', 'GEL'
                         ) THEN FLOOR(SUM(USERPRIMARYQUANTITY)* price)
                         ELSE 0
                     END jml_harga_kg_FKF,
@@ -22038,7 +22051,7 @@ FROM
 	    		ALLOCATION.ORIGINTRNTRANSACTIONNUMBER IS NULL
                             AND
 	    		ALLOCATION.DESTINATIONTYPE = '7'
-                            --                and ALLOCATION.ORDERCODE IN ('PCA2400006')
+                            --                                and ALLOCATION.ORDERCODE IN ('PCA2400008')	    	
                     )
                 WHERE
                     USERPRIMARYQUANTITY <> 0
@@ -22078,7 +22091,7 @@ FROM
             SALDOCPROVISIONALCOUNTERCODE,
             PRICE
     )
-    --                                            WHERE SALESDOCUMENTPROVISIONALCODE ='PCA2400004'
+    --                                                WHERE SALESDOCUMENTPROVISIONALCODE ='PCA2400008'
 GROUP BY
     SALESDOCUMENTCOMPANYCODE,
     ITEMTYPECODE,
@@ -23115,7 +23128,14 @@ FROM
             round(SALESDOCUMENTLINE.price, 2) AS harga_satuan,
             GRANDTOTAL.TOTAL_KG AS BERAT,
             CASE
-                WHEN trim(SALESDOCUMENTLINE.PRICEUNITOFMEASURECODE) = 'kg' THEN GRANDTOTAL.TOTAL_YARD
+                WHEN trim(SALESDOCUMENTLINE.PRICEUNITOFMEASURECODE) = 'kg'
+                AND SALESDOCUMENTLINE.ITEMTYPEAFICODE NOT IN (
+                    'DYC', 'GYR', 'GEL'
+                ) THEN GRANDTOTAL.TOTAL_YARD
+                WHEN trim(SALESDOCUMENTLINE.PRICEUNITOFMEASURECODE) = 'kg'
+                AND SALESDOCUMENTLINE.ITEMTYPEAFICODE IN (
+                    'DYC', 'GYR', 'GEL'
+                ) THEN GRANDTOTAL.TOTAL_UNIT
                 WHEN trim(SALESDOCUMENTLINE.PRICEUNITOFMEASURECODE) = 'yd' THEN GRANDTOTAL.TOTAL_YARD
                 WHEN trim(SALESDOCUMENTLINE.PRICEUNITOFMEASURECODE) = 'm' THEN GRANDTOTAL.TOTAL_METER
                 WHEN trim(SALESDOCUMENTLINE.PRICEUNITOFMEASURECODE) IN(
@@ -23196,6 +23216,7 @@ FROM
             SALESORDER.PAYMENTCUSTOMERCODE,
             PLANTINVOICE.CREATIONUSER,
             SALESDOCUMENTLINE.PREVIOUSCODE,
+            SALESDOCUMENTLINE.ITEMTYPEAFICODE,
             ITXVIEW_PO_INVOICE.NO_PO,
             SALESDOCUMENT.ORDERPARTNERBRANDCODE,
             SALESORDER.ORDERPARTNERBRANDCODE,
@@ -23233,6 +23254,7 @@ FROM
             BUSINESSPARTNER.LEGALNAME1,
             ADDRESS.CODE
     )
+    --        WHERE NO_SJ ='PCA2400008'
 GROUP BY
     COMPANYCODE,
     DIVISIONCODE,
@@ -26576,7 +26598,12 @@ SELECT
     SUM(USERPRIMARYQUANTITY) AS USERPRIMARYQUANTITY,
     SUM(USERSECONDARYQUANTITY) AS USERSECONDARYQUANTITY,
     SUM(BASESECONDARYQUANTITY) AS BASESECONDARYQUANTITY,
-    SUM(qty_pcs) AS qty_pcs,
+    CASE
+        WHEN ITEMTYPECODE IN (
+            'DYC', 'GYR', 'GEL'
+        ) THEN count(CODE)
+        ELSE SUM(qty_pcs)
+    END AS qty_pcs,    
     PRICE,
     PRICEUNITOFMEASURECODE,
     PREVIOUSCODE,
@@ -26630,7 +26657,14 @@ SELECT
      harga_satuan,
      SUM(USERPRIMARYQUANTITY) AS BERAT,
         CASE
-            WHEN trim(PRICEUNITOFMEASURECODE) = 'kg' THEN SUM(USERSECONDARYQUANTITY)
+        WHEN trim(PRICEUNITOFMEASURECODE) = 'kg'
+        AND ITEMTYPECODE NOT IN (
+            'DYC', 'GYR', 'GEL'
+        ) THEN SUM(USERSECONDARYQUANTITY)
+        WHEN trim(PRICEUNITOFMEASURECODE) = 'kg'
+        AND ITEMTYPECODE IN (
+            'DYC', 'GYR', 'GEL'
+        ) THEN count(CODE)
         WHEN trim(PRICEUNITOFMEASURECODE) = 'yd' THEN SUM(USERSECONDARYQUANTITY)
         WHEN trim(PRICEUNITOFMEASURECODE) = 'm' THEN round(SUM(BASESECONDARYQUANTITY), 2)
         WHEN trim(PRICEUNITOFMEASURECODE) IN (
@@ -27002,7 +27036,7 @@ FROM
     )
 WHERE
     USERPRIMARYQUANTITY <> 0
-    --        AND INVOice = 'SMU24070004'
+    --            AND SALESDOCUMENTPROVISIONALCODE = 'PCA2400008'
 GROUP BY
     TIPE,
     COMPANYCODE,
@@ -38878,7 +38912,7 @@ FROM
 
 CREATE VIEW ITXVIEW_SUMMARY_QTY_DELIVERY AS 
 SELECT
-    DISTINCT 
+    DISTINCT
 	s4.SALESDOCUMENTPROVISIONALCODE,
     s5.GOODSISSUEDATE,
     a2.CODE,
@@ -38898,7 +38932,7 @@ SELECT
     TRIM(s.SUBCODE05) AS NO_WARNA,
     s.USERPRIMARYQUANTITY AS NETTO,
     TRIM(s.USERPRIMARYUOMCODE) AS SATUAN_NETTO,
-    s.USERSECONDARYQUANTITY AS NETTO_2,
+    s.BASESECONDARYQUANTITY AS NETTO_2,
     TRIM(s.USERSECONDARYUOMCODE) AS SATUAN_NETTO_2,
     p.SECONDARYUNSTEADYCVSFACTOR AS KONVERSI,
     COALESCE(s3.CONFIRMEDDELIVERYDATE, s2.CONFIRMEDDUEDATE) AS ACTUAL_DELIVERY,
@@ -38972,10 +39006,10 @@ LEFT JOIN ELEMENTS e ON
     e.CODE = a2.ITEMELEMENTCODE
 WHERE
     s.LINESTATUS = '1'
-    --	AND s.SALESORDERCODE = 'EXP2400330' 
+    --    	AND s.SALESORDERCODE = 'EXP2400536' 
     --	AND NOT e.QUALITYREASONCODE = 'FOC' 
     --	AND e.QUALITYREASONCODE IS NULL
-    --	AND s.ORDERLINE = 70
+    --    	AND s.ORDERLINE = '60'
     --	AND iasp.LOTCODE = '00143138'
 GROUP BY
     s4.SALESDOCUMENTPROVISIONALCODE,
@@ -38996,7 +39030,7 @@ GROUP BY
     s.SUBCODE05,
     s.USERPRIMARYQUANTITY,
     s.USERPRIMARYUOMCODE,
-    s.USERSECONDARYQUANTITY,
+    s.BASESECONDARYQUANTITY,
     s.USERSECONDARYUOMCODE,
     p.SECONDARYUNSTEADYCVSFACTOR,
     s3.CONFIRMEDDELIVERYDATE,
@@ -39787,7 +39821,7 @@ FROM
             CASE
                 WHEN E.QUALITYREASONCODE = 'FOC'
                 AND ITXVIEW_SUB_SURATJALAN_EXIM.COUNTERCODE IN(
-                    'EXDPROV', 'EXPPROV', 'PFEPROV', 'DREDEF', 'DREPROV', 'DRDDEF', 'DRPPROV'
+                    'PODPROV', 'DRPPROV', 'PFDPROV', 'PSMPROV'
                 ) THEN ALLOCATION.USERPRIMARYQUANTITY
                 ELSE 0
             END AS FOC_KG_Gudang,
