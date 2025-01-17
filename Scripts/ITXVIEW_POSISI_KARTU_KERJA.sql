@@ -59,6 +59,10 @@ LEFT JOIN ITXVIEW_DETAIL_QA_DATA idqd ON idqd.PRODUCTIONDEMANDCODE = p.PRODUCTIO
                                         idqd.CHARACTERISTICCODE = 'GRB10' OR
                                         idqd.CHARACTERISTICCODE = 'GRB11' OR
                                         idqd.CHARACTERISTICCODE = 'GRB12' OR
+                                        idqd.CHARACTERISTICCODE = 'GRB13' OR
+                                        idqd.CHARACTERISTICCODE = 'GRB14' OR
+                                        idqd.CHARACTERISTICCODE = 'GRB15' OR
+                                        idqd.CHARACTERISTICCODE = 'GRB16' OR
                                         idqd.CHARACTERISTICCODE = 'AREA')
                                     AND NOT (idqd.VALUEQUANTITY = 999 OR idqd.VALUEQUANTITY = 9999 OR idqd.VALUEQUANTITY = 99999 OR idqd.VALUEQUANTITY = 99 OR idqd.VALUEQUANTITY = 91)
 --WHERE
