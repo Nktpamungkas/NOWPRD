@@ -3404,6 +3404,7 @@ LEFT JOIN ITXVIEWINSPECTION i2 ON
 CREATE VIEW ITXVIEWINSPECTPACKING AS
 SELECT
     --	DISTINCT 
+    MAX(STANDARDGROUP.CODE) AS POINT_TABLE,
     ELEMENTSINSPECTION.ABSUNIQUEID,
     SUBSTR(ELEMENTSINSPECTION.INSPECTIONSTARTDATETIME, 1, 10) AS INSPECTIONSTARTDATETIME,
     i.LONGDESCRIPTION AS OPERATOR,
@@ -3481,8 +3482,11 @@ LEFT JOIN ADSTORAGE ADSTORAGE ON
 LEFT JOIN ADSTORAGE ADSTORAGE2 ON
     ADSTORAGE2.UNIQUEID = ELEMENTSINSPECTION.ABSUNIQUEID
     AND ADSTORAGE2.FIELDNAME = 'GSM'
-    --WHERE 
-    --	ELEMENTSINSPECTION.ELEMENTCODE = '00252686003'
+LEFT JOIN STANDARDGROUP STANDARDGROUP ON
+    STANDARDGROUP.CODE = ELEMENTSINSPECTION.QUALITYTABLECODE
+    AND STANDARDGROUP.STANDARDGROUPTYPECODE = '503'
+    --    WHERE 
+    --    	ELEMENTSINSPECTION.ELEMENTCODE = '00324528007'
     --	AND	ELEMENTSINSPECTIONEVENT.ELEMENTSINSINSPECTIONINDEX = '0'
 GROUP BY
     ELEMENTSINSPECTION.ABSUNIQUEID,
@@ -19009,38 +19013,122 @@ CREATE VIEW ITXVIEW_GRADE_INSPECT AS
 SELECT
     k.*,
     CASE
-        WHEN k.BUYER = 'UNDER ARMOUR'
-        AND k.POINT_100 <= 15 THEN 1
-        WHEN k.BUYER = 'UA-DOME'
-        AND k.POINT_100 <= 15 THEN 1
-        WHEN k.BUYER = 'ADIDAS'
-        AND k.KET_POLY = 1
-        AND k.POINT_100 <= 15 THEN 1
-        WHEN k.BUYER <> 'UNDER ARMOUR'
-        AND k.POINT_100 <= 20 THEN 1
-        WHEN k.BUYER <> 'UA-DOME'
-        AND k.POINT_100 <= 20 THEN 1
-        WHEN k.BUYER <> 'ADIDAS'
-        AND k.KET_POLY <> 1
-        AND k.POINT_100 <= 20 THEN 1
-        ELSE 0
+        WHEN QUALITY_CODE = 001 THEN(
+            CASE
+                WHEN k.BUYER = 'UNDER ARMOUR'
+                AND k.POINT_100 <= 15 THEN 1
+                WHEN k.BUYER = 'UA-DOME'
+                AND k.POINT_100 <= 15 THEN 1
+                WHEN k.BUYER = 'ADIDAS'
+                AND k.KET_POLY = 1
+                AND k.POINT_100 <= 15 THEN 1
+                WHEN k.BUYER <> 'UNDER ARMOUR'
+                AND k.POINT_100 <= 20 THEN 1
+                WHEN k.BUYER <> 'UA-DOME'
+                AND k.POINT_100 <= 20 THEN 1
+                WHEN k.BUYER <> 'ADIDAS'
+                AND k.KET_POLY <> 1
+                AND k.POINT_100 <= 20 THEN 1
+                ELSE 0
+            END
+        )
+        WHEN QUALITY_CODE = 003 THEN(
+            CASE
+                WHEN k.BUYER = 'UNDER ARMOUR'
+                AND k.POINT_100 <= 15 THEN 1
+                WHEN k.BUYER = 'UA-DOME'
+                AND k.POINT_100 <= 15 THEN 1
+                WHEN k.BUYER = 'ADIDAS'
+                AND k.KET_POLY = 1
+                AND k.POINT_100 <= 15 THEN 1
+                WHEN k.BUYER <> 'UNDER ARMOUR'
+                AND k.POINT_100 <= 15 THEN 1
+                WHEN k.BUYER <> 'UA-DOME'
+                AND k.POINT_100 <= 15 THEN 1
+                WHEN k.BUYER <> 'ADIDAS'
+                AND k.KET_POLY <> 1
+                AND k.POINT_100 <= 15 THEN 1
+                ELSE 0
+            END
+        )
+        WHEN QUALITY_CODE = 004 THEN(
+            CASE
+                WHEN k.BUYER = 'UNDER ARMOUR'
+                AND k.POINT_100 <= 20 THEN 1
+                WHEN k.BUYER = 'UA-DOME'
+                AND k.POINT_100 <= 20 THEN 1
+                WHEN k.BUYER = 'ADIDAS'
+                AND k.KET_POLY = 1
+                AND k.POINT_100 <= 20 THEN 1
+                WHEN k.BUYER <> 'UNDER ARMOUR'
+                AND k.POINT_100 <= 20 THEN 1
+                WHEN k.BUYER <> 'UA-DOME'
+                AND k.POINT_100 <= 20 THEN 1
+                WHEN k.BUYER <> 'ADIDAS'
+                AND k.KET_POLY <> 1
+                AND k.POINT_100 <= 20 THEN 1
+                ELSE 0
+            END
+        )
     END AS GRADE_A,
     CASE
-        WHEN k.BUYER = 'UNDER ARMOUR'
-        AND k.POINT_100 BETWEEN 15 AND 30 THEN 1
-        WHEN k.BUYER = 'UA-DOME'
-        AND k.POINT_100 BETWEEN 15 AND 30 THEN 1
-        WHEN k.BUYER = 'ADIDAS'
-        AND k.KET_POLY = 1
-        AND k.POINT_100 BETWEEN 15 AND 30 THEN 1
-        WHEN k.BUYER <> 'UNDER ARMOUR'
-        AND k.POINT_100 BETWEEN 20.01 AND 30 THEN 1
-        WHEN k.BUYER <> 'UA-DOME'
-        AND k.POINT_100 BETWEEN 20.01 AND 30 THEN 1
-        WHEN k.BUYER <> 'ADIDAS'
-        AND k.KET_POLY <> 1
-        AND k.POINT_100 BETWEEN 20.01 AND 30 THEN 1
-        ELSE 0
+        WHEN QUALITY_CODE = 001 THEN(
+            CASE
+                WHEN k.BUYER = 'UNDER ARMOUR'
+                AND k.POINT_100 BETWEEN 15 AND 30 THEN 1
+                WHEN k.BUYER = 'UA-DOME'
+                AND k.POINT_100 BETWEEN 15 AND 30 THEN 1
+                WHEN k.BUYER = 'ADIDAS'
+                AND k.KET_POLY = 1
+                AND k.POINT_100 BETWEEN 15 AND 30 THEN 1
+                WHEN k.BUYER <> 'UNDER ARMOUR'
+                AND k.POINT_100 BETWEEN 20.01 AND 30 THEN 1
+                WHEN k.BUYER <> 'UA-DOME'
+                AND k.POINT_100 BETWEEN 20.01 AND 30 THEN 1
+                WHEN k.BUYER <> 'ADIDAS'
+                AND k.KET_POLY <> 1
+                AND k.POINT_100 BETWEEN 20.01 AND 30 THEN 1
+                ELSE 0
+            END
+        )
+        WHEN QUALITY_CODE = 003 THEN(
+            CASE
+                WHEN k.BUYER = 'UNDER ARMOUR'
+                AND k.POINT_100 BETWEEN 15 AND 30 THEN 1
+                WHEN k.BUYER = 'UA-DOME'
+                AND k.POINT_100 BETWEEN 15 AND 30 THEN 1
+                WHEN k.BUYER = 'ADIDAS'
+                AND k.KET_POLY = 1
+                AND k.POINT_100 BETWEEN 15 AND 30 THEN 1
+                WHEN k.BUYER <> 'UNDER ARMOUR'
+                AND k.POINT_100 BETWEEN 15.01 AND 30 THEN 1
+                WHEN k.BUYER <> 'UA-DOME'
+                AND k.POINT_100 BETWEEN 15.01 AND 30 THEN 1
+                WHEN k.BUYER <> 'ADIDAS'
+                AND k.KET_POLY <> 1
+                AND k.POINT_100 BETWEEN 15.01 AND 30 THEN 1
+                ELSE 0
+            END
+        )
+        WHEN QUALITY_CODE = 004 THEN(
+            CASE
+                WHEN k.BUYER = 'UNDER ARMOUR'
+                AND k.POINT_100 BETWEEN 20 AND 30 THEN 1
+                WHEN k.BUYER = 'UA-DOME'
+                AND k.POINT_100 BETWEEN 20 AND 30 THEN 1
+                WHEN k.BUYER = 'ADIDAS'
+                AND k.KET_POLY = 1
+                AND k.POINT_100 BETWEEN 20 AND 30 THEN 1
+                WHEN k.BUYER <> 'UNDER ARMOUR'
+                AND k.POINT_100 BETWEEN 20.01 AND 30 THEN 1
+                WHEN k.BUYER <> 'UA-DOME'
+                AND k.POINT_100 BETWEEN 20.01 AND 30 THEN 1
+                WHEN k.BUYER <> 'ADIDAS'
+                AND k.KET_POLY <> 1
+                AND k.POINT_100 BETWEEN 20.01 AND 30 THEN 1
+                ELSE 0
+            END
+        )
     END AS GRADE_B,
     CASE
         WHEN k.BUYER = 'UNDER ARMOUR'
@@ -19073,6 +19161,7 @@ FROM
                     ADSTORAGE.VALUEDECIMAL AS GRM,
                     ELEMENTSINSPECTION.WIDTHGROSS,
                     ELEMENTSINSPECTION.QUALITYCODE,
+                    MAX(STANDARDGROUP.CODE) AS QUALITY_CODE,
                     MAX(k.LONGDESCRIPTION) AS BUYER,
                     CASE
                         WHEN INSTR(MAX(f.SUMMARIZEDDESCRIPTION), '100% POLY') > 0 THEN 1
@@ -19101,6 +19190,9 @@ FROM
                     AND ADSTORAGE.FIELDNAME = 'GSM'
                 LEFT JOIN ELEMENTS ON
                     ELEMENTSINSPECTION.ELEMENTCODE = ELEMENTS.CODE
+                LEFT JOIN STANDARDGROUP STANDARDGROUP ON
+                    STANDARDGROUP.CODE = ELEMENTSINSPECTION.QUALITYTABLECODE
+                    AND STANDARDGROUP.STANDARDGROUPTYPECODE = '503'
                 GROUP BY
                     ELEMENTSINSPECTIONEVENT.ELEMENTSINSPECTIONELEMENTCODE,
                     ELEMENTSINSPECTION.LENGTHGROSS,
@@ -19109,11 +19201,11 @@ FROM
                     ELEMENTSINSPECTION.QUALITYCODE,
                     ADSTORAGE.VALUEDECIMAL
             ) i
-            --		WHERE
-            --	i.ELEMENTCODE = '00309352015'
+            --        		WHERE
+            --        	i.ELEMENTCODE = '00324528007'
     )k
-    --WHERE
-    --	k.ELEMENTCODE = '00309352015';
+    --    WHERE
+    --    	k.ELEMENTCODE = '00324528007';
 
 
 -- DB2ADMIN.ITXVIEW_GRAMASI_EXIM source
@@ -28842,8 +28934,9 @@ WHERE
             OR p.ITEMTYPEAFICODE = 'FKF'
             OR p.ITEMTYPEAFICODE = 'KGF'
     )
+    AND s.LINESTATUS = 1
     --    AND a.VALUESTRING IS NULL
-    --    AND p.ORIGDLVSALORDLINESALORDERCODE = 'SAM2400094' 
+    --        AND p.ORIGDLVSALORDLINESALORDERCODE = 'EXP2400568' 
     --    AND p.ORIGDLVSALORDERLINEORDERLINE = 20
     --        AND p.CODE = '00215523';
 
@@ -29229,6 +29322,7 @@ CREATE VIEW ITXVIEW_KK_TAS AS
 SELECT
     P1.CODE AS NO_PROD_ORDER,
     P3.PRODUCTIONDEMANDCODE AS NO_DEMAND,
+    P2.SUBCODE04,
     PROJECT.LONGDESCRIPTION AS PROJECTCODE,
     P2.ORIGDLVSALORDLINESALORDERCODE,
     P2.ORIGDLVSALORDERLINEORDERLINE,
@@ -29352,11 +29446,13 @@ LEFT JOIN ADSTORAGE a ON
 LEFT JOIN ADSTORAGE a2 ON
     a2.UNIQUEID = P2.ABSUNIQUEID
     AND a2.FIELDNAME = 'Gramasi'
-    --WHERE
-    --	P1.CODE = '00152419'
+    --WHERE 
+    --	PROJECTCODE LIKE '%TS2500005%'
+    --	P1.CODE = '00189159'
 GROUP BY
     P1.CODE,
     P3.PRODUCTIONDEMANDCODE,
+    P2.SUBCODE04,
     PROJECT.LONGDESCRIPTION,
     P2.ORIGDLVSALORDLINESALORDERCODE,
     P2.ORIGDLVSALORDERLINEORDERLINE,
@@ -29916,6 +30012,115 @@ WHERE
     p.OPERATIONCODE IN (
         'DYE1', 'DYE2', 'DYE3', 'DYE4', 'DYE5', 'DYE6', 'DYE7', 'DYE8'
     );
+
+
+-- DB2ADMIN.ITXVIEW_MACRO_PLAN source
+
+CREATE VIEW ITXVIEW_MACRO_PLAN AS
+SELECT
+    DISTINCT
+	Tanggal_Bon_Order,
+    CODE,
+    DEMAND,
+    DELIVERYDATE,
+    GREIGE_AWAL,
+    GREIGE_AKHIR,
+    S1,
+    S2,
+    S3,
+    S4,
+    S5,
+    S6,
+    LANGGANAN,
+    WORKCENTERCODE,
+    CASE
+        WHEN S1 IN (
+            'TC', 'CVC', 'TCX', 'CVCX'
+        )
+        AND OPERATIONCODE IN (
+            'DYE2', 'DYE4'
+        ) THEN 'DYE2'
+        ELSE OPERATIONCODE
+    END AS OPERATIONCODE,
+    qty
+FROM
+    (
+        SELECT
+            DISTINCT 
+		s.CREATIONDATETIME,
+            DATE(s.CREATIONDATETIME) AS Tanggal_Bon_Order,
+            s.CODE,
+            p.CODE AS DEMAND,
+            s2.DELIVERYDATE,
+            trim(p.SUBCODE01)AS S1,
+            trim(p.SUBCODE02)AS S2,
+            trim(p.SUBCODE03)AS S3,
+            trim(p.SUBCODE04)AS S4,
+            trim(p.SUBCODE05)AS S5,
+            trim(p.SUBCODE06)AS S6,
+            ip.LANGGANAN || '(' || ip.BUYER || ')' AS LANGGANAN,
+            p2.WORKCENTERCODE,
+            CASE
+                WHEN p2.PRODRESERVATIONLINKGROUPCODE IS NULL
+                OR p2.PRODRESERVATIONLINKGROUPCODE = '' THEN p2.OPERATIONCODE
+                ELSE p2.PRODRESERVATIONLINKGROUPCODE
+            END AS OPERATIONCODE,
+            CASE
+                WHEN p.ITEMTYPEAFICODE = 'KFF' THEN p.USERPRIMARYQUANTITY
+                WHEN p.ITEMTYPEAFICODE = 'FKF' THEN p.USERSECONDARYQUANTITY
+            END AS qty,
+            COALESCE(a2.VALUEDATE, a4.VALUEDATE) AS GREIGE_AWAL,
+            a.VALUEDATE AS GREIGE_AKHIR
+        FROM
+            SALESORDER s
+        LEFT JOIN PRODUCTIONDEMAND p ON
+            p.DLVSALORDERLINESALESORDERCODE = s.CODE
+        LEFT JOIN PRODUCTIONDEMANDSTEP p2 ON
+            p2.PRODUCTIONDEMANDCODE = p.CODE
+        LEFT JOIN ITXVIEW_PELANGGAN ip ON
+            ip.CODE = p.ORIGDLVSALORDLINESALORDERCODE
+        LEFT JOIN ITXVIEWKGBRUTOBONORDER2_FKF f ON
+            f.CODE = p.CODE
+        LEFT JOIN SALESORDERDELIVERY s2 ON
+            s2.SALESORDERLINESALESORDERCODE = s.CODE
+            AND s2.SALESORDERLINEORDERLINE = p.DLVSALESORDERLINEORDERLINE
+        LEFT JOIN ADSTORAGE a ON
+            a.UNIQUEID = p.ABSUNIQUEID
+            AND a.FIELDNAME = 'RMPGreigeReqDateTo'
+        LEFT JOIN ADSTORAGE a2 ON
+            a2.UNIQUEID = p.ABSUNIQUEID
+            AND a2.FIELDNAME = 'RMPReqDate'
+        LEFT JOIN ADSTORAGE a3 ON
+            a3.UNIQUEID = p.ABSUNIQUEID
+            AND a3.FIELDNAME = 'ProAllow'
+        LEFT JOIN ADSTORAGE a4 ON
+            a4.UNIQUEID = p.ABSUNIQUEID
+            AND a4.FIELDNAME = 'ProAllowDate'
+        WHERE
+            (
+                p2.WORKCENTERCODE = 'P3RS1'
+                    OR p2.WORKCENTERCODE = 'P3SU1'
+                    OR p2.WORKCENTERCODE = 'P3ST1'
+                    OR p2.WORKCENTERCODE = 'P3CP1'
+                    OR p2.WORKCENTERCODE = 'P3TD1'
+                    OR p2.WORKCENTERCODE = 'P3SH1'
+                    OR p2.WORKCENTERCODE = 'P3CO1'
+                    OR p2.WORKCENTERCODE = 'P3AR1'
+                    OR p2.WORKCENTERCODE = 'P3BC1'
+                    OR p2.WORKCENTERCODE = 'P3DY1'
+                    OR p2.WORKCENTERCODE = 'P3RX1'
+                    OR p2.WORKCENTERCODE = 'P3CB1'
+                    OR p2.WORKCENTERCODE = 'P3SM1'
+            )
+            --		AND s.CREATIONDATETIME BETWEEN '2024-07-10' AND '2024-07-13'
+            --AND p.SUBCODE01 IN ('TC','CVC','TCX','CVCX')
+            AND NOT p.ORIGDLVSALORDLINESALORDERCODE IS NULL
+            --		AND p.CODE = '00267647'
+            AND p2.STEPTYPE = '0'
+            --AND p2.OPERATIONCODE IN ('DYE1','DYE2','DYE3','DYE4','DYE5','DYE6')
+            --AND p.CODE ='00208479       '
+    )
+    --WHERE OPERATIONCODE1 NOT IN ('DYE2-A1', 'DYE4-A1','DYE4-T1','DYE4-T2');
 
 
 -- DB2ADMIN.ITXVIEW_MAINPROGRAM source
