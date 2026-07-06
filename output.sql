@@ -16282,88 +16282,91 @@ FROM
 -- View: DB2ADMIN.ITXVIEW_INVOICE_NOINVOICE
 -- ---------------------------------------------------
 CREATE VIEW ITXVIEW_INVOICE_NOINVOICE AS
-SELECT --	Untuk ITXVIEW_INVOICE_GRANDTOTAL3 dibuat direport langsung (ITTInvoice.rpt), logicnya sama:
- COMPANYCODE, DIVISIONCODE, Invoice, NO_SJ, tgl_inv, issue_date, tanggal_inv, tgl_create, due, DUEKB,
- DATEKB, jenis_order, kode_bep, id_bep, nama_bep, kode_cus, nama_cus,
- CASE WHEN jenis_order = 'EXPORT'
-          AND id_bep <> 989 THEN '0'
-     WHEN jenis_order = 'SAMPLE'
-          AND id_bep <> 888
-          AND id_bep <> 813
-          OR kode_cus = 'BIHQSS' THEN '0' WHEN jenis_order = 'REPLCEXP'
-          AND id_bep <> 888 THEN '0' ELSE NPWP
- END AS NPWP, FAKTUR_PAJAK, NO_ORDER,
- CASE WHEN NO_PO IS NULL THEN 'Nomor PO Header dan Line Kosong' ELSE NO_PO
- END AS NO_PO, NO_CI, desc_kain, code_payment, curr,
- CASE WHEN ppn = 'S03' THEN 0.11 WHEN ppn = 'S01' THEN 0.11 WHEN ppn = 'S13' THEN 0.11 WHEN ppn = 'S05' THEN 0.12 WHEN ppn = 'N01' THEN 0 ELSE 0
- END AS ppn, payment_terms, unit, rate, biaya_tambahan, BERAT, BERAT_LAIN,
- CASE WHEN curr = 'IDR' THEN 0 ELSE (JUMLAH_HARGA) + (biaya_tambahan)
- END AS DPP,
- CASE WHEN tanggal_inv <= DATE('2024-12-31') THEN 0
-     WHEN tanggal_inv >= DATE('2024-12-31')
-          AND curr = 'IDR' THEN floor(round(ROUND((JUMLAH_HARGA + biaya_tambahan) * rate,
-                                                2)* 11 / 12))
-     WHEN tanggal_inv >= DATE('2024-12-31')
-          AND curr <> 'IDR' THEN round((((JUMLAH_HARGA) + (biaya_tambahan))* 11)/ 12, 2)
- END AS DPP_NILAI_LAIN, floor((JUMLAH_HARGA + biaya_tambahan) * rate) AS DPP_BC,
- CASE WHEN curr = 'IDR' THEN 0
-     ELSE round(CASE
-                    WHEN tanggal_inv <= DATE('2024-12-31')
-                         AND ppn IN ('S03',
-                                    'S01', 'S13') THEN round(((JUMLAH_HARGA) + (biaya_tambahan))* 0.11,
-                                                           2)
-                    WHEN tanggal_inv >= DATE('2024-12-31')
-                         AND ppn IN ('S03',
-                                    'S01', 'S13', 'S05') THEN round((((JUMLAH_HARGA) + (biaya_tambahan))* 11)/ 12,
-                                                                  2)* 0.12 ELSE 0
-                END, 2)
- END AS VAT,
- CASE
-     WHEN tanggal_inv <= DATE('2024-12-31')
-          AND ppn IN ('S03', 'S01', 'S13') THEN floor(floor((JUMLAH_HARGA + biaya_tambahan) * rate) * 0.11)
-     WHEN tanggal_inv >= DATE('2024-12-31')
-          AND Invoice = 'CA25070120'
-          AND ppn IN ('S03', 'S01', 'S13', 'S05') THEN FLOOR(ROUND(ROUND((JUMLAH_HARGA + biaya_tambahan) * rate,
-                                                                       2)* 11 / 12)* 0.12)+ 1
-     WHEN tanggal_inv >= DATE('2024-12-31')
-          AND ppn IN ('S03', 'S01', 'S13', 'S05') THEN FLOOR(ROUND(ROUND((JUMLAH_HARGA + biaya_tambahan) * rate,
-                                                                       2)* 11 / 12)* 0.12) ELSE 0
- END AS VAT_BC,
- CASE WHEN curr = 'IDR' THEN 0
-     ELSE round(JUMLAH_HARGA + biaya_tambahan + CASE
-                                                    WHEN tanggal_inv <= DATE('2024-12-31')
-                                                         AND ppn IN ('S03',
-                                                                    'S01', 'S13') THEN ROUND((JUMLAH_HARGA + biaya_tambahan), 2) * 0.11
-                                                    WHEN tanggal_inv >= DATE('2024-12-31')
-                                                         AND ppn IN ('S03',
-                                                                    'S01', 'S13',
-                                                                    'S05') THEN round((((JUMLAH_HARGA) + (biaya_tambahan))* 11)/ 12,
+SELECT COMPANYCODE, DIVISIONCODE, Invoice, NO_SJ, tgl_inv, issue_date, tanggal_inv, tgl_create, due,
+       DUEKB, DATEKB, jenis_order, kode_bep, id_bep, nama_bep, kode_cus, nama_cus,
+       CASE WHEN jenis_order = 'EXPORT'
+                AND id_bep <> 989 THEN '0'
+           WHEN jenis_order = 'SAMPLE'
+                AND id_bep <> 888
+                AND id_bep <> 813
+                OR kode_cus = 'BIHQSS' THEN '0' WHEN jenis_order = 'REPLCEXP'
+                AND id_bep <> 888 THEN '0' ELSE NPWP
+       END AS NPWP, FAKTUR_PAJAK, NO_ORDER,
+       CASE WHEN NO_PO IS NULL THEN 'Nomor PO Header dan Line Kosong' ELSE NO_PO
+       END AS NO_PO, NO_CI, desc_kain, code_payment, curr,
+       CASE WHEN ppn = 'S03' THEN 0.11 WHEN ppn = 'S01' THEN 0.11 WHEN ppn = 'S13' THEN 0.11 WHEN ppn = 'S05' THEN 0.12 WHEN ppn = 'N01' THEN 0 ELSE 0
+       END AS ppn, payment_terms, unit, rate, biaya_tambahan, BERAT, BERAT_LAIN,
+       CASE WHEN curr = 'IDR' THEN 0 ELSE (JUMLAH_HARGA) + (biaya_tambahan)
+       END AS DPP,
+       CASE WHEN tanggal_inv <= DATE('2024-12-31') THEN 0
+           WHEN tanggal_inv >= DATE('2024-12-31')
+                AND curr = 'IDR' THEN floor(round(ROUND((JUMLAH_HARGA + biaya_tambahan) * rate,
+                                                      2)* 11 / 12))
+           WHEN tanggal_inv >= DATE('2024-12-31')
+                AND curr <> 'IDR' THEN round((((JUMLAH_HARGA) + (biaya_tambahan))* 11)/ 12,
+                                           2)
+       END AS DPP_NILAI_LAIN, floor((JUMLAH_HARGA + biaya_tambahan) * rate) AS DPP_BC,
+       CASE WHEN curr = 'IDR' THEN 0
+           ELSE round(CASE
+                          WHEN tanggal_inv <= DATE('2024-12-31')
+                               AND ppn IN ('S03',
+                                          'S01', 'S13') THEN round(((JUMLAH_HARGA) + (biaya_tambahan))* 0.11,
+                                                                 2)
+                          WHEN tanggal_inv >= DATE('2024-12-31')
+                               AND ppn IN ('S03',
+                                          'S01', 'S13', 'S05') THEN round((((JUMLAH_HARGA) + (biaya_tambahan))* 11)/ 12,
+                                                                        2)* 0.12 ELSE 0
+                      END, 2)
+       END AS VAT,
+       CASE
+           WHEN tanggal_inv <= DATE('2024-12-31')
+                AND ppn IN ('S03', 'S01', 'S13') THEN ROUND(floor((JUMLAH_HARGA + biaya_tambahan) * rate) * 0.11)
+           WHEN tanggal_inv >= DATE('2024-12-31')
+                AND Invoice = 'CA25070120'
+                AND ppn IN ('S03', 'S01', 'S13', 'S05') THEN ROUND(ROUND(ROUND((JUMLAH_HARGA + biaya_tambahan) * rate,
+                                                                             2)* 11 / 12)* 0.12)+ 1
+           WHEN tanggal_inv >= DATE('2024-12-31')
+                AND ppn IN ('S03', 'S01', 'S13', 'S05') THEN ROUND(ROUND(ROUND((JUMLAH_HARGA + biaya_tambahan) * rate,
+                                                                             2)* 11 / 12)* 0.12) ELSE 0
+       END AS VAT_BC,
+       CASE WHEN curr = 'IDR' THEN 0
+           ELSE round(JUMLAH_HARGA + biaya_tambahan + CASE
+                                                          WHEN tanggal_inv <= DATE('2024-12-31')
+                                                               AND ppn IN ('S03',
+                                                                          'S01',
+                                                                          'S13') THEN ROUND((JUMLAH_HARGA + biaya_tambahan), 2) * 0.11
+                                                          WHEN tanggal_inv >= DATE('2024-12-31')
+                                                               AND ppn IN ('S03',
+                                                                          'S01',
+                                                                          'S13', 'S05') THEN round((((JUMLAH_HARGA) + (biaya_tambahan))* 11)/ 12,
 
-                                                                                    2)* 0.12 ELSE 0
-                                                END, 2)
- END AS TOTAL, floor((JUMLAH_HARGA + biaya_tambahan) * rate) + CASE
-                                                                   WHEN tanggal_inv <= DATE('2024-12-31')
-                                                                        AND ppn IN ('S03',
-                                                                                    'S01',
-                                                                                    'S13') THEN floor(floor((JUMLAH_HARGA + biaya_tambahan) * rate) * 0.11)
-                                                                   WHEN tanggal_inv >= DATE('2024-12-31')
-                                                                        AND Invoice = 'CA25070120'
-                                                                        AND ppn IN ('S03',
-                                                                                    'S01',
-                                                                                    'S13',
-                                                                                    'S05') THEN floor(round(ROUND((JUMLAH_HARGA + biaya_tambahan) * rate,
+                                                                                                 2)* 0.12 ELSE 0
+                                                      END, 2)
+       END AS TOTAL, floor((JUMLAH_HARGA + biaya_tambahan) * rate) + CASE
+                                                                         WHEN tanggal_inv <= DATE('2024-12-31')
+                                                                              AND ppn IN ('S03',
+                                                                                          'S01',
+                                                                                          'S13') THEN ROUND(floor((JUMLAH_HARGA + biaya_tambahan) * rate) * 0.11)
+                                                                         WHEN tanggal_inv >= DATE('2024-12-31')
+                                                                              AND Invoice = 'CA25070120'
+                                                                              AND ppn IN ('S03',
+                                                                                          'S01',
+                                                                                          'S13',
+                                                                                          'S05') THEN ROUND(round(ROUND((JUMLAH_HARGA + biaya_tambahan) * rate,
 
-                                                                                                                2)* 11 / 12)* 0.12)+ 1
-                                                                   WHEN tanggal_inv >= DATE('2024-12-31')
-                                                                        AND ppn IN ('S03',
-                                                                                    'S01',
-                                                                                    'S13',
-                                                                                    'S05') THEN floor(round(ROUND((JUMLAH_HARGA + biaya_tambahan) * rate,
+                                                                                                                      2)* 11 / 12)* 0.12)+ 1
+                                                                         WHEN tanggal_inv >= DATE('2024-12-31')
+                                                                              AND ppn IN ('S03',
+                                                                                          'S01',
+                                                                                          'S13',
+                                                                                          'S05') THEN ROUND(round(ROUND((JUMLAH_HARGA + biaya_tambahan) * rate,
 
-                                                                                                                2)* 11 / 12)* 0.12) ELSE 0
-                                                               END AS TOTAL_BC,
-                                                               PAYMENTCUSTOMERUNIQUEID, TAXTEMPLATECODE,
-                                                               PAYMENTCUSTOMERCODE
+                                                                                                                      2)* 11 / 12)* 0.12)
+                                                                         ELSE 0
+                                                                     END AS TOTAL_BC,
+                                                                     PAYMENTCUSTOMERUNIQUEID,
+                                                                     TAXTEMPLATECODE,
+                                                                     PAYMENTCUSTOMERCODE
 FROM
     (SELECT DISTINCT PLANTINVOICE.COMPANYCODE, PLANTINVOICE.DIVISIONCODE, trim(PLANTINVOICE.CODE) AS Invoice,
                      SALESDOCUMENT2.PROVISIONALCODE AS NO_SJ, SALESDOCUMENT2.PROVISIONALDOCUMENTDATE AS tgl_inv,
@@ -16386,24 +16389,24 @@ FROM
                      SALESDOCUMENT2.PAYMENTCUSTOMERUNIQUEID, SALESDOCUMENT2.PAYMENTCUSTOMERCODE,
                      BUSINESSPARTNER.NUMBERID AS id_bep, BUSINESSPARTNER.LEGALNAME1 AS nama_bep,
                      CASE
-                         WHEN SALESDOCUMENT2.TEMPLATECODE ='GSE' THEN ADDRESS2.CODE
+                         WHEN SALESDOCUMENT2.TEMPLATECODE = 'GSE' THEN ADDRESS2.CODE
                          WHEN ADDRESS.CODE IS NULL
                               OR trim(ADDRESS2.CODE) IS NULL THEN 'Warning! Kolom Address Code Sales Order Kosong. USER: ' || TRIM(SALESORDER.CREATIONUSER) ELSE ADDRESS.CODE
                      END AS kode_cus,
                      CASE
-                         WHEN SALESDOCUMENT2.TEMPLATECODE ='GSE' THEN trim(ADDRESS2.ADDRESSEE)
+                         WHEN SALESDOCUMENT2.TEMPLATECODE = 'GSE' THEN trim(ADDRESS2.ADDRESSEE)
                          WHEN (trim(ADDRESS.ADDRESSEE) IS NULL
                                OR trim(ADDRESS2.ADDRESSEE) IS NULL) THEN 'Warning! Kolom Address Code Sales Order Kosong. USER: ' || TRIM(SALESORDER.CREATIONUSER) ELSE trim(ADDRESS.ADDRESSEE)
                      END AS nama_cus,
                      CASE
-                         WHEN SALESDOCUMENT2.TEMPLATECODE ='GSE' THEN trim(ADDRESS2.ADDRESSLINE4)
+                         WHEN SALESDOCUMENT2.TEMPLATECODE = 'GSE' THEN trim(ADDRESS2.ADDRESSLINE4)
                          WHEN PLANTINVOICE.BLNUMBER IS NOT NULL THEN CASE
                                                                          WHEN (trim(ADDRESS.ADDRESSLINE4) IS NULL
                                                                                OR trim(ADDRESS2.ADDRESSLINE4) IS NULL) THEN 'Warning! Kolom Address Code Sales Order Kosong. USER: ' || TRIM(SALESORDER.CREATIONUSER)
                                                                          ELSE trim(ADDRESS.ADDRESSLINE4)
                                                                      END
                          ELSE CASE
-                                  WHEN SALESDOCUMENT2.TEMPLATECODE ='GSE' THEN trim(ADDRESS2.ADDRESSLINE4)
+                                  WHEN SALESDOCUMENT2.TEMPLATECODE = 'GSE' THEN trim(ADDRESS2.ADDRESSLINE4)
                                   WHEN (trim(ADDRESS.ADDRESSLINE4) IS NULL
                                         OR trim(ADDRESS2.ADDRESSLINE4) IS NULL) THEN 'Warning! Kolom Address Code Sales Order Kosong. USER: ' || TRIM(SALESORDER.CREATIONUSER) ELSE trim(ADDRESS.ADDRESSLINE4)
                               END
@@ -16500,7 +16503,7 @@ FROM
               SALESDOCUMENTLINE.PRICEUNITOFMEASURECODE, PLANTINVOICELINE.TAXTEMPLATECODE, PLANTINVOICE.BLNUMBER,
               PLANTINVOICE.ORDERCURRENCYCODE, SALESDOCUMENTLINE.price, SALESORDER.DESCRIPTION,
               SALESORDER.TEMPLATECODE, SALESORDER.COUNTERCODE, BUSINESSPARTNER.NUMBERID,
-              BUSINESSPARTNER.LEGALNAME1, ADDRESS.CODE, ADDRESS2.CODE )--                                WHERE Invoice IN ('EX25090032','EX25090020','EX25050043')
+              BUSINESSPARTNER.LEGALNAME1, ADDRESS.CODE, ADDRESS2.CODE )--WHERE Invoice IN ('DM26060022', 'DMU26060480')
 GROUP BY COMPANYCODE, DIVISIONCODE, Invoice, NO_SJ, tgl_inv, tanggal_inv, issue_date, tgl_create,
          jenis_order, kode_bep, due, DUEKB, DATEKB, nama_cus, NPWP, FAKTUR_PAJAK, NO_ORDER, NO_PO,
          NO_CI, code_payment, payment_terms, unit, biaya_tambahan, JUMLAH_HARGA, BERAT_LAIN,
