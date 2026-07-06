@@ -1,0 +1,15 @@
+SELECT 
+    TRIM(r.CODE) AS value,
+    r.LONGDESCRIPTION AS label
+FROM 
+    RESOURCES r
+WHERE 
+      SUBSTR(r.CODE, 1, 4) = 'P3ST'
+   OR SUBSTR(r.CODE, 1, 4) = 'P3CP'
+   OR SUBSTR(r.CODE, 1, 4) = 'P3BC'
+   OR r.CODE = 'P3IN350'
+   OR SUBSTR(r.CODE, 1, 4) = 'P3DR'
+   OR SUBSTR(r.CODE, 1, 4) = 'P3LS'
+   OR SUBSTR(r.CODE, 1, 4) = 'P3SM'
+ORDER BY 
+    SUBSTR(r.CODE, 1, 4), SUBSTR(r.CODE, 6, 2) ASC;
