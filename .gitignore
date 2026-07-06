@@ -2,3 +2,5 @@
 Diagrams
 .project
 Backup
+.env
+__pycache__
