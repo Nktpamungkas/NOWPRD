@@ -1,7 +1,0 @@
-SELECT
-    VALUEDATE
-FROM
-    ADSTORAGE a
-WHERE
-    a.FIELDNAME = 'ApprovalDate'
-    AND a.UNIQUEID = '123285304'
